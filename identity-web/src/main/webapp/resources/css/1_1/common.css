@@ -19,20 +19,20 @@ div.navBarClass a{
 }
 
 table.tableBody{
-  width:990px;
-  background-image:url("../resources/images/lousaNova/quadroNegro_meio_990x10.png;");
-  margin: 0px;
-  padding: 0px;
-  border-collapse:collapse;
-  border-spacing:0pt;    
-  background-repeat:repeat-y;
+	width:990px;
+	background-image:url("../resources/images/lousaNova/quadroNegro_meio_990x10.png;");
+	margin: 0px;
+	padding: 0px;
+	border-collapse:collapse;
+	border-spacing:0pt;    
+	background-repeat:repeat-y;
 }
 
 
 table.tableBody tr td{
     /* important to make content aligned inside the table*/
-  vertical-align:top;    
-  
+	vertical-align:top;    
+
 }
 
 td.tableFooter{
@@ -52,8 +52,8 @@ td.footerForm{
 }
 
 .errorMessage{
-  color: red;
-  font-size: 12px;
+	color: red;
+	font-size: 12px;
 }
 
 td.formLabel, label{
@@ -90,12 +90,12 @@ td{
 
 
 .postitComponentYellow{
-        background-image:url("../resources/images/postits/novos/postit_amar_150x145.png");
-        width:150px;
-        height:145px;
-        font-size: 14px;
-        text-align:center;
-        color:black;
+	background-image:url("../resources/images/postits/novos/postit_amar_150x145.png");
+	width:150px;
+	height:145px;
+	font-size: 14px;
+	text-align:center;
+	color:black;
 }
 
 
@@ -112,12 +112,12 @@ td{
 
 
 .postitComponentRed{
-        background-image:url("../resources/images/postits/novos/postit_verm_150x145.png");
-        width:150px;
-        height:145px;
-        font-size: 14px;
-        text-align:center;
-        color:white;
+	background-image:url("../resources/images/postits/novos/postit_verm_150x145.png");
+	width:150px;
+	height:145px;
+	font-size: 14px;
+	text-align:center;
+	color:white;
 }
 
 
@@ -133,12 +133,12 @@ td{
 }
 
 .postitComponentBlue{
-        background-image:url("../resources/images/postits/novos/postit_azul_150x145.png");
-        width:150px;
-        height:145px;
-        font-size: 14px;
-        text-align:center;
-        color:white;
+	background-image:url("../resources/images/postits/novos/postit_azul_150x145.png");
+	width:150px;
+	height:145px;
+	font-size: 14px;
+	text-align:center;
+	color:white;
 }
 
 .postitComponentBlue tr td{
@@ -152,12 +152,12 @@ td{
     text-decoration:none;
 }
 .postitComponentOrange{
-        background-image:url("../resources/images/postits/novos/postit_lara_150x145.png");
-        width:150px;
-        height:145px;
-        font-size: 14px;
-        text-align:center;
-        color:black;
+	background-image:url("../resources/images/postits/novos/postit_lara_150x145.png");
+	width:150px;
+	height:145px;
+	font-size: 14px;
+	text-align:center;
+	color:black;
 }
 
 

@@ -38,5 +38,4 @@ public class ExampleActivator implements BundleActivator {
 	public void stop(BundleContext bc) throws Exception {
 		LOG.entry(bc);
 	}
-
 }

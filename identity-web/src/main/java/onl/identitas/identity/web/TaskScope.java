@@ -10,7 +10,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Actually, custom scope is a Map where the instances of managed bean are store.
+ * Actually, custom scope is a Map where the instances of managed bean are
+ * store.
  */
 public class TaskScope extends ConcurrentHashMap<String, Object> {
 
@@ -27,7 +28,9 @@ public class TaskScope extends ConcurrentHashMap<String, Object> {
 	public void notifyCreate(String scopeName, FacesContext facesContext) {
 		LOG.entry(scopeName, facesContext);
 		ScopeContext scopeContext = new ScopeContext(scopeName, this);
-		application.publishEvent(facesContext, PostConstructCustomScopeEvent.class, scopeContext);
+		application.publishEvent(facesContext,
+								 PostConstructCustomScopeEvent.class,
+								 scopeContext);
 		LOG.exit();
 	}
 
@@ -35,7 +38,8 @@ public class TaskScope extends ConcurrentHashMap<String, Object> {
 	public void notifyDestroy(String scopeName, FacesContext facesContext) {
 		LOG.entry(scopeName, facesContext);
 		ScopeContext scopeContext = new ScopeContext(scopeName, this);
-		application.publishEvent(facesContext, PreDestroyCustomScopeEvent.class, scopeContext);
+		application.publishEvent(facesContext, PreDestroyCustomScopeEvent.class,
+								 scopeContext);
 		LOG.exit();
 	}
 }

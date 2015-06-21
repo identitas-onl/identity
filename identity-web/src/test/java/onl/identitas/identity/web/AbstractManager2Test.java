@@ -31,7 +31,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
 /**
  *
  * @author Chema
@@ -41,7 +40,7 @@ public class AbstractManager2Test {
 
 	public static final String ACTION_RETURN = "return";
 	private static final long serialVersionUID = 1L;
-	
+
 	@BeforeClass
 	public static void setUpClass() throws Exception {
 	}
@@ -75,7 +74,7 @@ public class AbstractManager2Test {
 		when(actionMock.apply(em)).thenReturn(ACTION_RETURN);
 
 		manager.doInTransaction(actionMock);
-		
+
 		Mockito.verify(actionMock).apply(em);
 	}
 

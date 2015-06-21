@@ -24,7 +24,8 @@ public class TaskScopeResolver extends ELResolver {
 	public static void destroyScope() {
 		LOG.entry();
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		Map<String, Object> sessionMap = ctx.getExternalContext().getSessionMap();
+		Map<String, Object> sessionMap = ctx.getExternalContext()
+				.getSessionMap();
 		TaskScope taskScope = (TaskScope) sessionMap.remove(SCOPE_NAME);
 		if (taskScope != null) {
 			taskScope.notifyDestroy(SCOPE_NAME, ctx);
@@ -41,7 +42,8 @@ public class TaskScopeResolver extends ELResolver {
 	}
 
 	@Override
-	public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context, Object base) {
+	public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context,
+															 Object base) {
 		return Collections.<FeatureDescriptor>emptyList().iterator();
 	}
 
@@ -74,14 +76,17 @@ public class TaskScopeResolver extends ELResolver {
 	}
 
 	@Override
-	public void setValue(ELContext context, Object base, Object property, Object value) {
+	public void setValue(ELContext context, Object base, Object property,
+						 Object value) {
 	}
 
 	private TaskScope getScope(ELContext context) {
 		//looking for custom scope in the session
 		//if doesn't exists create and put it in the session
-		FacesContext facesContext = (FacesContext) context.getContext(FacesContext.class);
-		Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
+		FacesContext facesContext = (FacesContext) context.getContext(
+				FacesContext.class);
+		Map<String, Object> sessionMap = facesContext.getExternalContext()
+				.getSessionMap();
 
 		TaskScope scopeManager = (TaskScope) sessionMap.get(SCOPE_NAME);
 		if (scopeManager == null) {

@@ -1,5 +1,5 @@
 div.navBarClass span, div.navBarClass {
-  /* Red 100%*/
+	/* Red 100%*/
     color: #EF3E42;;
     padding:10px;
 }
@@ -23,34 +23,34 @@ input.botaoPostIt{
 }
 
 .inputPattern{
-  /* Red 20%*/
-  color: #F8C6C7;
+	/* Red 20%*/
+	color: #F8C6C7;
 
 }
 
 label {
-  font-size: 10pt;
-  /* Red 100%*/
-  color: #EF3E42;
-  text-align: left;
-  border:none;
+	font-size: 10pt;
+	/* Red 100%*/
+	color: #EF3E42;
+	text-align: left;
+	border:none;
 
 }
 
 input, select,textarea {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  /* Red 100% */
-  color: #EF3E42;
-  text-align: left;
-  background-color:white;
-  border-style:ridge;
-  /*lightgray*/
-  border:1px solid lightgray;
-  padding:4px;
-  margin:4px;
-  margin-bottom:4px;
-  font-weight:normal;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	/* Red 100% */
+	color: #EF3E42;
+	text-align: left;
+	background-color:white;
+	border-style:ridge;
+	/*lightgray*/
+	border:1px solid lightgray;
+	padding:4px;
+	margin:4px;
+	margin-bottom:4px;
+	font-weight:normal;
 }
 
 .datatableHeader{
@@ -181,15 +181,15 @@ table.menuTable tr td{
     font-size: 12px;
     font-weight: bold;
     text-align:center;
-    
+
 }
 .postitComponent{
-        background-image:url("../resources/images/postits/novos/postit_verm_150x145.png");
-        width:150px;
-        height:145px;
-        font-size: 14px;
-        text-align:center;
-        color:white;
+	background-image:url("../resources/images/postits/novos/postit_verm_150x145.png");
+	width:150px;
+	height:145px;
+	font-size: 14px;
+	text-align:center;
+	color:white;
 }
 
 .postitComponent tr td{
@@ -201,13 +201,13 @@ table.menuTable tr td{
 }
 
 .bigPostitComponent{
-        background-image:url("../resources/images/postits/novos/postit_verm_315x150.png");
-        background-repeat:no-repeat;
-        width:315px;
-        height:150px;
-        font-size: 14px;
-        text-align:center;
-        color:white;
+	background-image:url("../resources/images/postits/novos/postit_verm_315x150.png");
+	background-repeat:no-repeat;
+	width:315px;
+	height:150px;
+	font-size: 14px;
+	text-align:center;
+	color:white;
 }
 
 .bigPostitComponent tr td{

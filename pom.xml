@@ -34,6 +34,8 @@
 		<org.osgi.service.http.port>8080</org.osgi.service.http.port>
 		<org.osgi.service.http.port.secure>8443</org.osgi.service.http.port.secure>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<packaging>pom</packaging>
@@ -42,7 +44,7 @@
 		<module>poms</module>
 		<module>provision</module>
 		<module>identity-web</module>
-		<!--<module>javax.javaee-api</module>-->
+		<module>javax.javaee-api</module>
 	</modules>
 
 	<build>
@@ -71,7 +73,29 @@
 					-->
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<id>enforce-identity-reqs</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>[3.0.3,)</version>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>1.8</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>
