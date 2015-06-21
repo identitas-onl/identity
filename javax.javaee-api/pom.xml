@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<modelVersion>4.0.0</modelVersion>
+ 
+	<parent>
+		<relativePath>../poms/wrappers/</relativePath>
+		<groupId>onl.identitas.identity.build</groupId>
+		<artifactId>wrapper-bundle-settings</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<bundle.symbolicName>javax.javaee-api</bundle.symbolicName>
+		<wrapped.groupId>javax</wrapped.groupId>
+		<wrapped.artifactId>javaee-api</wrapped.artifactId>
+		<wrapped.version>7.0</wrapped.version>
+	</properties>
+
+	<groupId>onl.identitas.identity</groupId>
+	<artifactId>javax.javaee-api</artifactId>
+	<version>7.0-001-SNAPSHOT</version>
+
+	<name>${bundle.symbolicName} ${wrapped.version} [osgi]</name>
+
+	<packaging>bundle</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>${wrapped.groupId}</groupId>
+			<artifactId>${wrapped.artifactId}</artifactId>
+			<version>${wrapped.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-spi</artifactId>
+			<version>1.0</version>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+</project>
