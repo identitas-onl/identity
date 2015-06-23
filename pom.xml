@@ -15,6 +15,7 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
 	<groupId>onl.identitas</groupId>
 	<artifactId>identity</artifactId>
 	<version>1.0-SNAPSHOT</version>
@@ -25,7 +26,47 @@
 	 | describe your project here
 	-->
 
-	<description>Generated using Pax-Construct</description>
+	<description>Project to manage online identities</description>
+	<url>https://github.com/identitas-onl/identity</url>
+	<inceptionYear>2015</inceptionYear>
+
+	<developers>
+		<developer>
+			<id>jmfernandezdealba</id>
+			<name>José M.</name>
+			<email>jmfernandezdalba@gmail.com</email>
+
+			<url>https://es.linkedin.com/in/jmfernandezalba</url>
+			<organization>GRASIA</organization>
+			<organizationUrl>http://grasia.fdi.ucm.es</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>1</timezone>
+		</developer>
+	</developers>
+
+	<prerequisites>
+		<maven>[3.3.0,)</maven>
+	</prerequisites>
+
+	<scm>
+		<connection>scm:git:https://github.com/identitas-onl/identity.git</connection>
+		<developerConnection>scm:git:https://github.com/identitas-onl/identity.git</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/identitas-onl/identity</url>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/identitas-onl/identity/issues</url>
+	</issueManagement>
+
+	<ciManagement>
+		<system>hudson</system>
+		<url>http://identitas.onl:8080/identity</url>
+	</ciManagement>
 
 	<properties>
 		<!--
@@ -44,7 +85,9 @@
 		<module>poms</module>
 		<module>provision</module>
 		<module>identity-web</module>
-		<module>javax.javaee-api</module>
+		<!--<module>javax.javaee-api</module>-->
+		<module>log4j2-api-config</module>
+		<module>log4j2-core-config</module>
 	</modules>
 
 	<build>
