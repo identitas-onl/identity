@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<relativePath>../poms/compiled/</relativePath>
+		<groupId>onl.identitas.identity.build</groupId>
+		<artifactId>compiled-bundle-settings</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>onl.identitas</groupId>
+	<artifactId>log4j2-api-config</artifactId>
+	<version>1.0-SNAPSHOT</version>
+
+	<properties>
+		<bundle.symbolicName>org.apache.logging.log4j.apiconf</bundle.symbolicName>
+		<bundle.namespace>onl.identitas</bundle.namespace>
+	</properties>
+
+	<name>log4j2-api-config</name>
+
+	<packaging>bundle</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>org.apache.logging.log4j.apiconf</Bundle-SymbolicName>
+						<Bundle-Name>Log4j API Configurator</Bundle-Name>
+						<Bundle-Version>1.0.0</Bundle-Version>
+						<Fragment-Host>org.apache.logging.log4j.api</Fragment-Host>
+						<DynamicImport-Package>
+							*;resolution:=optional
+						</DynamicImport-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>log4j-provider.properties</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+</project>
