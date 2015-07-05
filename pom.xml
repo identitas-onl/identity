@@ -27,7 +27,9 @@
 	-->
 
 	<description>Project to manage online identities</description>
+
 	<url>https://github.com/identitas-onl/identity</url>
+
 	<inceptionYear>2015</inceptionYear>
 
 	<developers>
@@ -35,7 +37,6 @@
 			<id>jmfernandezdealba</id>
 			<name>José M.</name>
 			<email>jmfernandezdalba@gmail.com</email>
-
 			<url>https://es.linkedin.com/in/jmfernandezalba</url>
 			<organization>GRASIA</organization>
 			<organizationUrl>http://grasia.fdi.ucm.es</organizationUrl>
@@ -84,10 +85,10 @@
 	<modules>
 		<module>poms</module>
 		<module>provision</module>
-		<module>identity-web</module>
-		<!--<module>javax.javaee-api</module>-->
 		<module>log4j2-api-config</module>
 		<module>log4j2-core-config</module>
+		<module>identity-web</module>
+		<module>identity-ejb</module>
 	</modules>
 
 	<build>
@@ -110,7 +111,7 @@
 					<execution>
 					  <id>ide-support</id>
 					  <goals>
-						<goal>eclipse</goal>
+							<goal>eclipse</goal>
 					  </goals>
 					</execution>
 					-->
@@ -129,7 +130,7 @@
 						<configuration>
 							<rules>
 								<requireMavenVersion>
-									<version>[3.0.3,)</version>
+									<version>[3.3.3,)</version>
 								</requireMavenVersion>
 								<requireJavaVersion>
 									<version>1.8</version>
@@ -141,4 +142,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

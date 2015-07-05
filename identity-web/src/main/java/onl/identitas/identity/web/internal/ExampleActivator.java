@@ -27,15 +27,15 @@ import org.osgi.framework.BundleContext;
  */
 public class ExampleActivator implements BundleActivator {
 
-	private static final Logger LOG = LogManager.getLogger();
+private static final Logger LOG = LogManager.getLogger();
 
-	@Override
-	public void start(BundleContext bc) throws Exception {
-		LOG.entry(bc);
-	}
+@Override
+public void start(BundleContext bc) throws Exception {
+	LOG.entry(bc);
+}
 
-	@Override
-	public void stop(BundleContext bc) throws Exception {
-		LOG.entry(bc);
-	}
+@Override
+public void stop(BundleContext bc) throws Exception {
+	LOG.entry(bc);
+}
 }

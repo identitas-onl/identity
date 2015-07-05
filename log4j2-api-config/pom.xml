@@ -25,6 +25,14 @@
 	<packaging>bundle</packaging>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>log4j-provider.properties</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
@@ -42,13 +50,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>log4j-provider.properties</include>
-				</includes>
-			</resource>
-		</resources>
 	</build>
 </project>

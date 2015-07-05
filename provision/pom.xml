@@ -10,6 +10,7 @@
 		<artifactId>identity</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
+
 	<groupId>onl.identitas.identity.build</groupId>
 	<artifactId>provision</artifactId>
 

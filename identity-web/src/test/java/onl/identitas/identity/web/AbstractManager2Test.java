@@ -38,47 +38,47 @@ import org.testng.annotations.Test;
 @SuppressWarnings("ClassWithoutLogger")
 public class AbstractManager2Test {
 
-	public static final String ACTION_RETURN = "return";
-	private static final long serialVersionUID = 1L;
+public static final String ACTION_RETURN = "return";
+private static final long serialVersionUID = 1L;
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
+@BeforeClass
+public static void setUpClass() throws Exception {
+}
 
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
+@AfterClass
+public static void tearDownClass() throws Exception {
+}
 
-	@Mock
-	private EntityManagerFactory emf;
-	@Mock
-	private UserTransaction userTransaction;
-	@Mock
-	private EntityManager em;
-	@Mock
-	private Function<EntityManager, String> actionMock;
-	@InjectMocks
-	private SkinUrlManager manager;
+@Mock
+private EntityManagerFactory emf;
+@Mock
+private UserTransaction userTransaction;
+@Mock
+private EntityManager em;
+@Mock
+private Function<EntityManager, String> actionMock;
+@InjectMocks
+private SkinUrlManager manager;
 
-	public AbstractManager2Test() {
-	}
+public AbstractManager2Test() {
+}
 
-	@BeforeMethod
-	public void setUpMethod() throws Exception {
-		MockitoAnnotations.initMocks(this);
-		when(emf.createEntityManager()).thenReturn(em);
-	}
+@BeforeMethod
+public void setUpMethod() throws Exception {
+	MockitoAnnotations.initMocks(this);
+	when(emf.createEntityManager()).thenReturn(em);
+}
 
-	@Test
-	public void testDoInTransaction() throws ManagerException {
-		when(actionMock.apply(em)).thenReturn(ACTION_RETURN);
+@Test
+public void testDoInTransaction() throws ManagerException {
+	when(actionMock.apply(em)).thenReturn(ACTION_RETURN);
 
-		manager.doInTransaction(actionMock);
+	manager.doInTransaction(actionMock);
 
-		Mockito.verify(actionMock).apply(em);
-	}
+	Mockito.verify(actionMock).apply(em);
+}
 
-	@AfterMethod
-	public void tearDownMethod() throws Exception {
-	}
+@AfterMethod
+public void tearDownMethod() throws Exception {
+}
 }

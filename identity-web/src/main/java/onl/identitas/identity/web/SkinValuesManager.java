@@ -20,53 +20,53 @@ import org.apache.logging.log4j.Logger;
 @ApplicationScoped
 public class SkinValuesManager implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = LogManager.getLogger();
+private static final long serialVersionUID = 1L;
+private static final Logger LOG = LogManager.getLogger();
 
-	private final String defaultSkin = "blue";
+private final String defaultSkin = "blue";
 
-	private Map<String, String> values;
+private Map<String, String> values;
 
-	@PostConstruct
-	public void construct() {
-		LOG.entry();
+@PostConstruct
+public void construct() {
+	LOG.entry();
 
-		values = new LinkedHashMap<>(4);
-		values.put("yellow", "appYellowSkin.css");
-		values.put("orange", "appOrangeSkin.css");
-		values.put("red", "appRedSkin.css");
-		values.put(defaultSkin, "appBlueSkin.css");
+	values = new LinkedHashMap<>(4);
+	values.put("yellow", "appYellowSkin.css");
+	values.put("orange", "appOrangeSkin.css");
+	values.put("red", "appRedSkin.css");
+	values.put(defaultSkin, "appBlueSkin.css");
 
-		LOG.exit();
+	LOG.exit();
+}
+
+@PreDestroy
+public void destroy() {
+	LOG.entry();
+	if (null != values) {
+		LOG.trace("values is null");
+		values.clear();
+		values = null;
 	}
+	LOG.exit();
+}
 
-	@PreDestroy
-	public void destroy() {
-		LOG.entry();
-		if (null != values) {
-			LOG.trace("values is null");
-			values.clear();
-			values = null;
-		}
-		LOG.exit();
+protected String getSkinCss(String skin) {
+	if (!values.containsKey(skin)) {
+		return getDefaultSkinCss();
 	}
+	return values.get(skin);
+}
 
-	protected String getSkinCss(String skin) {
-		if (!values.containsKey(skin)) {
-			return getDefaultSkinCss();
-		}
-		return values.get(skin);
-	}
+protected String getDefaultSkinCss() {
+	return values.get(defaultSkin);
+}
 
-	protected String getDefaultSkinCss() {
-		return values.get(defaultSkin);
-	}
+public List<String> getNames() {
+	return new ArrayList<>(values == null ? null : values.keySet());
+}
 
-	public List<String> getNames() {
-		return new ArrayList<>(values == null ? null : values.keySet());
-	}
-
-	public int getSize() {
-		return values.keySet().size();
-	}
+public int getSize() {
+	return values.keySet().size();
+}
 }

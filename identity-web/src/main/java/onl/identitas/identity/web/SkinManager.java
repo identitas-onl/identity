@@ -16,33 +16,33 @@ import org.apache.logging.log4j.Logger;
 @SessionScoped
 public class SkinManager extends AbstractManager implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = LogManager.getLogger();
+private static final long serialVersionUID = 1L;
+private static final Logger LOG = LogManager.getLogger();
 
-	private String selectedSkin;
-	@ManagedProperty(value = "#{skinValuesManager}")
-	private SkinValuesManager skinValuesManager;
+private String selectedSkin;
+@ManagedProperty(value = "#{skinValuesManager}")
+private SkinValuesManager skinValuesManager;
 
-	@PostConstruct
-	public void construct() {
-		LOG.entry();
-		selectedSkin = skinValuesManager.getDefaultSkinCss();
-		LOG.exit();
-	}
+@PostConstruct
+public void construct() {
+	LOG.entry();
+	selectedSkin = skinValuesManager.getDefaultSkinCss();
+	LOG.exit();
+}
 
-	public String getSelectedSkin() {
-		return selectedSkin;
-	}
+public String getSelectedSkin() {
+	return selectedSkin;
+}
 
-	public void setSelectedSkin(String selectedSkin) {
-		this.selectedSkin = selectedSkin;
-	}
+public void setSelectedSkin(String selectedSkin) {
+	this.selectedSkin = selectedSkin;
+}
 
-	public SkinValuesManager getSkinValuesManager() {
-		return skinValuesManager;
-	}
+public SkinValuesManager getSkinValuesManager() {
+	return skinValuesManager;
+}
 
-	public void setSkinValuesManager(SkinValuesManager skinValuesManager) {
-		this.skinValuesManager = skinValuesManager;
-	}
+public void setSkinValuesManager(SkinValuesManager skinValuesManager) {
+	this.skinValuesManager = skinValuesManager;
+}
 }

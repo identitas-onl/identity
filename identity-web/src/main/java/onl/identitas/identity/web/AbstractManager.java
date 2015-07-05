@@ -27,129 +27,125 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class AbstractManager {
 
-	private static final Logger LOG = LogManager.getLogger();
+private static final Logger LOG = LogManager.getLogger();
 
-	@PersistenceUnit
-	private EntityManagerFactory emf;
-	@Resource
-	private UserTransaction userTransaction;
+@PersistenceUnit
+private EntityManagerFactory emf;
+@Resource
+private UserTransaction userTransaction;
 
-	protected <T> T doInTransaction(Function<EntityManager, T> action) throws
-			ManagerException {
-		LOG.entry(action);
+protected <T> T doInTransaction(Function<EntityManager, T> action) throws
+		ManagerException {
+	LOG.entry(action);
 
-		EntityManager em = emf.createEntityManager();
+	EntityManager em = emf.createEntityManager();
+	try {
+		userTransaction.begin();
+
+		T result = action.apply(em);
+
+		userTransaction.commit();
+
+		return LOG.exit(result);
+	}
+	catch (NotSupportedException | SystemException | RollbackException |
+		   HeuristicMixedException | HeuristicRollbackException |
+		   SecurityException | IllegalStateException e) {
+		LOG.catching(e);
+
 		try {
-			userTransaction.begin();
-
-			T result = action.apply(em);
-
-			userTransaction.commit();
-
-			return LOG.exit(result);
+			userTransaction.rollback();
 		}
-		catch (NotSupportedException | SystemException | RollbackException |
-			   HeuristicMixedException | HeuristicRollbackException |
-			   SecurityException |
-			   IllegalStateException e) {
-			LOG.catching(e);
-
-			try {
-				userTransaction.rollback();
-			}
-			catch (IllegalStateException | SecurityException | SystemException ex) {
-				LOG.catching(ex);
-			}
-
-			throw LOG.throwing(new ManagerException(e));
+		catch (IllegalStateException | SecurityException | SystemException ex) {
+			LOG.catching(ex);
 		}
-		finally {
-			em.close();
-		}
+
+		throw LOG.throwing(new ManagerException(e));
 	}
+	finally {
+		em.close();
+	}
+}
 
-	protected void doInTransaction(Consumer<EntityManager> action) throws
-			ManagerException {
-		LOG.entry(action);
+protected void doInTransaction(Consumer<EntityManager> action) throws
+		ManagerException {
+	LOG.entry(action);
 
-		EntityManager em = emf.createEntityManager();
+	EntityManager em = emf.createEntityManager();
+	try {
+		userTransaction.begin();
+
+		action.accept(em);
+
+		userTransaction.commit();
+
+		LOG.exit();
+	}
+	catch (IllegalStateException | SecurityException | HeuristicMixedException |
+		   HeuristicRollbackException | NotSupportedException |
+		   RollbackException | SystemException e) {
+		LOG.catching(e);
+
 		try {
-			userTransaction.begin();
-
-			action.accept(em);
-
-			userTransaction.commit();
-
-			LOG.exit();
+			userTransaction.rollback();
 		}
-		catch (IllegalStateException | SecurityException |
-			   HeuristicMixedException |
-			   HeuristicRollbackException | NotSupportedException |
-			   RollbackException |
-			   SystemException e) {
-			LOG.catching(e);
-
-			try {
-				userTransaction.rollback();
-			}
-			catch (IllegalStateException | SecurityException | SystemException ex) {
-				LOG.catching(ex);
-			}
-
-			throw LOG.throwing(new ManagerException(e));
+		catch (IllegalStateException | SecurityException | SystemException ex) {
+			LOG.catching(ex);
 		}
-		finally {
-			em.close();
-		}
-	}
 
-	protected void addMessage(String message) {
-		addMessage(null, message, FacesMessage.SEVERITY_INFO);
+		throw LOG.throwing(new ManagerException(e));
 	}
-
-	protected void addMessage(String componentId, String message) {
-		addMessage(componentId, message, FacesMessage.SEVERITY_INFO);
+	finally {
+		em.close();
 	}
+}
 
-	protected void addMessage(String message, Severity severity) {
-		addMessage(null, message, severity);
-	}
+protected void addMessage(String message) {
+	addMessage(null, message, FacesMessage.SEVERITY_INFO);
+}
 
-	protected void addMessage(String componentId, String message,
-							  Severity severity) {
-		FacesContext.getCurrentInstance().addMessage(componentId,
-													 new FacesMessage(severity,
-																	  message,
-																	  message));
-	}
+protected void addMessage(String componentId, String message) {
+	addMessage(componentId, message, FacesMessage.SEVERITY_INFO);
+}
 
-	protected String getMessageForKey(String key) {
+protected void addMessage(String message, Severity severity) {
+	addMessage(null, message, severity);
+}
+
+protected void addMessage(String componentId, String message, Severity severity) {
+	FacesContext.getCurrentInstance().addMessage(componentId,
+												 new FacesMessage(severity,
+																  message,
+																  message));
+}
+
+protected String getMessageForKey(String key) {
+	FacesContext ctx = FacesContext.getCurrentInstance();
+	ResourceBundle rb = ctx.getApplication().getResourceBundle(ctx, "i18n");
+	return rb.getString(key);
+}
+
+protected FacesMessage getFacesMessageForKey(String key) {
+	return new FacesMessage(getMessageForKey(key));
+}
+
+protected void publishEvent(Class<? extends SystemEvent> eventClass,
+							Object source) {
+	if (source != null) {
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		ResourceBundle rb = ctx.getApplication().getResourceBundle(ctx, "i18n");
-		return rb.getString(key);
+		ctx.getApplication().publishEvent(ctx, eventClass, source);
 	}
+}
 
-	protected FacesMessage getFacesMessageForKey(String key) {
-		return new FacesMessage(getMessageForKey(key));
-	}
+protected void subscribeToEvent(Class<? extends SystemEvent> eventClass,
+								SystemEventListener listener) {
+	FacesContext.getCurrentInstance().getApplication().subscribeToEvent(
+			eventClass, listener);
+}
 
-	protected void publishEvent(Class<? extends SystemEvent> eventClass,
-								Object source) {
-		if (source != null) {
-			FacesContext ctx = FacesContext.getCurrentInstance();
-			ctx.getApplication().publishEvent(ctx, eventClass, source);
-		}
-	}
-
-	protected void subscribeToEvent(Class<? extends SystemEvent> eventClass,
+protected void unsubscribeFromEvent(Class<? extends SystemEvent> eventClass,
 									SystemEventListener listener) {
-		FacesContext.getCurrentInstance().getApplication().subscribeToEvent(
-				eventClass, listener);
-	}
-
-	protected void unsubscribeFromEvent(Class<? extends SystemEvent> eventClass,
-										SystemEventListener listener) {
-		FacesContext.getCurrentInstance().getApplication().
-				unsubscribeFromEvent(eventClass, listener);
-	}
+	FacesContext.getCurrentInstance().getApplication().unsubscribeFromEvent(
+			eventClass, listener);
+}
 }
