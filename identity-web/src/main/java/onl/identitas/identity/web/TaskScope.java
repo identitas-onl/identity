@@ -1,6 +1,7 @@
 package onl.identitas.identity.web;
 
 import java.util.HashMap;
+import java.util.Map;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PostConstructCustomScopeEvent;
@@ -18,7 +19,7 @@ public class TaskScope {
 private static final int MAP_INITIAL_SIZE = 16;
 private static final Logger LOG = LogManager.getLogger();
 
-private final HashMap<String, Object> map = new HashMap<>(MAP_INITIAL_SIZE);
+private final Map<String, Object> map = new HashMap<>(MAP_INITIAL_SIZE);
 private final Application application;
 
 public TaskScope(Application application) {

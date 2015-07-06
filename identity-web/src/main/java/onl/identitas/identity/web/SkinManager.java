@@ -14,9 +14,8 @@ import org.apache.logging.log4j.Logger;
  */
 @ManagedBean(name = "skinManager")
 @SessionScoped
-public class SkinManager extends AbstractManager implements Serializable {
+public class SkinManager extends AbstractManager {
 
-private static final long serialVersionUID = 1L;
 private static final Logger LOG = LogManager.getLogger();
 
 private String selectedSkin;

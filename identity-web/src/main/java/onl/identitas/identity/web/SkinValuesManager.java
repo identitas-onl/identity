@@ -3,6 +3,7 @@ package onl.identitas.identity.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ApplicationScoped;
@@ -18,16 +19,17 @@ import org.apache.logging.log4j.Logger;
 @ApplicationScoped
 public class SkinValuesManager {
 
+private static final int NUM_SKINS = 4;
 private static final String DEFAULT_SKIN = "blue";
 private static final Logger LOG = LogManager.getLogger();
 
-private HashMap<String, String> values;
+private Map<String, String> values;
 
 @PostConstruct
 public void construct() {
 	LOG.entry();
 
-	values = new HashMap<>(4);
+	values = new HashMap<>(NUM_SKINS);
 	values.put("yellow", "appYellowSkin.css");
 	values.put("orange", "appOrangeSkin.css");
 	values.put("red", "appRedSkin.css");

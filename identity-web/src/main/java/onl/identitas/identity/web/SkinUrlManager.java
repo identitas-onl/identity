@@ -13,9 +13,8 @@ import org.apache.logging.log4j.Logger;
  */
 @ManagedBean(name = "skinUrlManager")
 @RequestScoped
-public class SkinUrlManager extends AbstractManager implements Serializable {
+public class SkinUrlManager extends AbstractManager {
 
-private static final long serialVersionUID = 1L;
 private static final Logger LOG = LogManager.getLogger();
 
 private String skin;
