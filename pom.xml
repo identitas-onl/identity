@@ -28,7 +28,7 @@
 
 	<description>Project to manage online identities</description>
 
-	<url>https://github.com/identitas-onl/identity</url>
+	<url>http://identitas-onl.github.io/identity/</url>
 
 	<inceptionYear>2015</inceptionYear>
 
@@ -66,7 +66,7 @@
 
 	<ciManagement>
 		<system>hudson</system>
-		<url>http://identitas.onl:8080/identity</url>
+		<url>http://identitas.onl:8080/job/identity</url>
 	</ciManagement>
 
 	<properties>

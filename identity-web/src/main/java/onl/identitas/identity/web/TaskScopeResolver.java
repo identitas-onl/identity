@@ -21,6 +21,8 @@ public class TaskScopeResolver extends ELResolver {
 private static final String SCOPE_NAME = "taskScope";
 private static final Logger LOG = LogManager.getLogger();
 
+private static final String PROPERTY_NULL_MSG = "The property is null";
+
 public static void destroyScope() {
 	LOG.entry();
 	FacesContext ctx = FacesContext.getCurrentInstance();
@@ -54,21 +56,26 @@ public Class<?> getType(ELContext context, Object base, Object property) {
 @Override
 public Object getValue(ELContext context, Object scope, Object property) {
 	LOG.entry(context, scope, property);
+
 	if (property == null) {
-		throw LOG.throwing(new PropertyNotFoundException());
+		throw LOG.throwing(new PropertyNotFoundException(PROPERTY_NULL_MSG));
 	}
-	if (scope == null && SCOPE_NAME.equals(property.toString())) {
-		TaskScope scopeManager = getScope(context);
-		context.setPropertyResolved(true);
-		return LOG.exit(scopeManager);
-	} else if (scope != null && scope instanceof TaskScope) {
+
+	if (scope == null) {
+		if (SCOPE_NAME.equals(property.toString())) {
+			TaskScope scopeManager = getScope(context);
+			context.setPropertyResolved(true);
+			return LOG.exit(scopeManager);
+		} else {
+			return LOG.exit(lookupBean(context, getScope(context), property
+									   .toString()));
+		}
+	} else if (scope instanceof TaskScope) {
 		//looking for bean in scope already created.
 		return LOG.exit(lookupBean(context, (TaskScope) scope, property
 								   .toString()));
-	} else if (scope == null) {
-		return LOG.exit(lookupBean(context, getScope(context), property
-								   .toString()));
 	}
+
 	return LOG.exit(null);
 }
 
@@ -80,6 +87,7 @@ public boolean isReadOnly(ELContext context, Object base, Object property) {
 @Override
 public void setValue(ELContext context, Object base, Object property,
 					 Object value) {
+	//TODO: I don't know why is this.
 }
 
 private TaskScope getScope(ELContext context) {
@@ -102,7 +110,7 @@ private TaskScope getScope(ELContext context) {
 
 private Object lookupBean(ELContext context, TaskScope scope, String key) {
 	//looking for mbean in taskScope
-	Object value = scope.get(key);
+	Object value = scope.getValue(key);
 	context.setPropertyResolved(value != null);
 	return value;
 }

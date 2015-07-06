@@ -1,10 +1,8 @@
 package onl.identitas.identity.web;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ApplicationScoped;
@@ -18,24 +16,22 @@ import org.apache.logging.log4j.Logger;
  */
 @ManagedBean(name = "skinValuesManager", eager = true)
 @ApplicationScoped
-public class SkinValuesManager implements Serializable {
+public class SkinValuesManager {
 
-private static final long serialVersionUID = 1L;
+private static final String DEFAULT_SKIN = "blue";
 private static final Logger LOG = LogManager.getLogger();
 
-private final String defaultSkin = "blue";
-
-private Map<String, String> values;
+private HashMap<String, String> values;
 
 @PostConstruct
 public void construct() {
 	LOG.entry();
 
-	values = new LinkedHashMap<>(4);
+	values = new HashMap<>(4);
 	values.put("yellow", "appYellowSkin.css");
 	values.put("orange", "appOrangeSkin.css");
 	values.put("red", "appRedSkin.css");
-	values.put(defaultSkin, "appBlueSkin.css");
+	values.put(DEFAULT_SKIN, "appBlueSkin.css");
 
 	LOG.exit();
 }
@@ -59,7 +55,7 @@ protected String getSkinCss(String skin) {
 }
 
 protected String getDefaultSkinCss() {
-	return values.get(defaultSkin);
+	return values.get(DEFAULT_SKIN);
 }
 
 public List<String> getNames() {
