@@ -101,10 +101,11 @@ private TaskScope getScope(ELContext context) {
 
 	TaskScope scopeManager = (TaskScope) sessionMap.get(SCOPE_NAME);
 	if (scopeManager == null) {
-		scopeManager = new TaskScope(facesContext.getApplication());
+		scopeManager = new TaskScope();
 		sessionMap.put(SCOPE_NAME, scopeManager);
 		scopeManager.notifyCreate(SCOPE_NAME, facesContext);
 	}
+
 	return LOG.exit(scopeManager);
 }
 

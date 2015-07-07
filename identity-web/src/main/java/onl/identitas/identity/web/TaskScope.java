@@ -1,5 +1,6 @@
 package onl.identitas.identity.web;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import javax.faces.application.Application;
@@ -14,17 +15,13 @@ import org.apache.logging.log4j.Logger;
  * Actually, custom scope is a Map where the instances of managed bean are
  * store.
  */
-public class TaskScope {
+public class TaskScope implements Serializable {
 
+private static final long serialVersionUID = 1L;
 private static final int MAP_INITIAL_SIZE = 16;
 private static final Logger LOG = LogManager.getLogger();
 
 private final Map<String, Object> map = new HashMap<>(MAP_INITIAL_SIZE);
-private final Application application;
-
-public TaskScope(Application application) {
-	this.application = application;
-}
 
 public Object getValue(String key) {
 	return map.get(key);
@@ -39,6 +36,7 @@ public Object getValue(String key) {
 public void notifyCreate(String scopeName, FacesContext facesContext) {
 	LOG.entry(scopeName, facesContext);
 	ScopeContext scopeContext = new ScopeContext(scopeName, map);
+	Application application = facesContext.getApplication();
 	application.publishEvent(facesContext, PostConstructCustomScopeEvent.class,
 							 scopeContext);
 	LOG.exit();
@@ -53,6 +51,7 @@ public void notifyCreate(String scopeName, FacesContext facesContext) {
 public void notifyDestroy(String scopeName, FacesContext facesContext) {
 	LOG.entry(scopeName, facesContext);
 	ScopeContext scopeContext = new ScopeContext(scopeName, map);
+	Application application = facesContext.getApplication();
 	application.publishEvent(facesContext, PreDestroyCustomScopeEvent.class,
 							 scopeContext);
 	LOG.exit();

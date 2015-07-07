@@ -1,5 +1,6 @@
 package onl.identitas.identity.web;
 
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -13,13 +14,14 @@ import org.apache.logging.log4j.Logger;
  */
 @ManagedBean(name = "skinManager")
 @SessionScoped
-public class SkinManager extends AbstractManager {
+public class SkinManager extends AbstractManager implements Serializable {
 
+private static final long serialVersionUID = 1L;
 private static final Logger LOG = LogManager.getLogger();
 
 private String selectedSkin;
 @ManagedProperty(value = "#{skinValuesManager}")
-private SkinValuesManager skinValuesManager;
+private transient SkinValuesManager skinValuesManager;
 
 @PostConstruct
 public void construct() {
