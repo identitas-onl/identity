@@ -1,4 +1,4 @@
-package onl.identitas.identity.web;
+package onl.identitas.identity.web.controller;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -16,26 +16,17 @@ public class SkinUrlManager extends AbstractManager {
 
 private static final Logger LOG = LogManager.getLogger();
 
-private String skin;
-
 @ManagedProperty(value = "#{skinManager}")
 private SkinManager skinManager;
 @ManagedProperty(value = "#{skinValuesManager}")
 private SkinValuesManager skinValuesManager;
 
-public String getSkin() {
-	return skin;
-}
-
-public void setSkin(String skin) {
-	this.skin = skin;
-}
+private String skin;
 
 public void update() {
 	LOG.entry();
 	if (skin == null || skin.isEmpty()) {
-		LOG.trace("skin is null or empty");
-		LOG.exit();
+		LOG.exit("skin is null or empty");
 		return;
 	}
 	String skinCss = skinValuesManager.getSkinCss(skin.toLowerCase());
@@ -44,18 +35,29 @@ public void update() {
 }
 
 public SkinManager getSkinManager() {
-	return skinManager;
+	return LOG.exit(skinManager);
 }
 
 public void setSkinManager(SkinManager skinManager) {
+	LOG.entry(skinManager);
 	this.skinManager = skinManager;
 }
 
 public SkinValuesManager getSkinValuesManager() {
-	return skinValuesManager;
+	return LOG.exit(skinValuesManager);
 }
 
 public void setSkinValuesManager(SkinValuesManager skinValuesManager) {
+	LOG.entry(skinValuesManager);
 	this.skinValuesManager = skinValuesManager;
+}
+
+public String getSkin() {
+	return LOG.exit(skin);
+}
+
+public void setSkin(String skin) {
+	LOG.entry(skin);
+	this.skin = skin;
 }
 }

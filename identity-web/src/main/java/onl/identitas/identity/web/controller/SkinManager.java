@@ -1,4 +1,4 @@
-package onl.identitas.identity.web;
+package onl.identitas.identity.web.controller;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * TODO: escribir esta documentación y más cosas. Prueba de jenkins webhook.
+ *
  * @author Chema
  */
 @ManagedBean(name = "skinManager")
@@ -19,9 +20,10 @@ public class SkinManager extends AbstractManager implements Serializable {
 private static final long serialVersionUID = 1L;
 private static final Logger LOG = LogManager.getLogger();
 
-private String selectedSkin;
 @ManagedProperty(value = "#{skinValuesManager}")
-private transient SkinValuesManager skinValuesManager;
+private SkinValuesManager skinValuesManager;
+
+private String selectedSkin;
 
 @PostConstruct
 public void construct() {
@@ -30,19 +32,21 @@ public void construct() {
 	LOG.exit();
 }
 
-public String getSelectedSkin() {
-	return selectedSkin;
-}
-
-public void setSelectedSkin(String selectedSkin) {
-	this.selectedSkin = selectedSkin;
-}
-
 public SkinValuesManager getSkinValuesManager() {
-	return skinValuesManager;
+	return LOG.exit(skinValuesManager);
 }
 
 public void setSkinValuesManager(SkinValuesManager skinValuesManager) {
+	LOG.entry(skinValuesManager);
 	this.skinValuesManager = skinValuesManager;
+}
+
+public String getSelectedSkin() {
+	return LOG.exit(selectedSkin);
+}
+
+public void setSelectedSkin(String selectedSkin) {
+	LOG.entry(selectedSkin);
+	this.selectedSkin = selectedSkin;
 }
 }

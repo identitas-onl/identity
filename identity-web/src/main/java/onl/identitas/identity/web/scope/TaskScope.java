@@ -1,8 +1,7 @@
-package onl.identitas.identity.web;
+package onl.identitas.identity.web.scope;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PostConstructCustomScopeEvent;
@@ -18,13 +17,16 @@ import org.apache.logging.log4j.Logger;
 public class TaskScope implements Serializable {
 
 private static final long serialVersionUID = 1L;
+
 private static final int MAP_INITIAL_SIZE = 16;
+
 private static final Logger LOG = LogManager.getLogger();
 
-private final Map<String, Object> map = new HashMap<>(MAP_INITIAL_SIZE);
+private final HashMap<String, Object> map = new HashMap<>(MAP_INITIAL_SIZE);
 
 public Object getValue(String key) {
-	return map.get(key);
+	LOG.entry(key);
+	return LOG.exit(map.get(key));
 }
 
 /**

@@ -1,4 +1,4 @@
-package onl.identitas.identity.web;
+package onl.identitas.identity.web.scope;
 
 import java.beans.FeatureDescriptor;
 import java.util.Collections;
@@ -18,10 +18,10 @@ import org.apache.logging.log4j.Logger;
  */
 public class TaskScopeResolver extends ELResolver {
 
-private static final String SCOPE_NAME = "taskScope";
-private static final Logger LOG = LogManager.getLogger();
+public static final String SCOPE_NAME = "taskScope";
+public static final String PROPERTY_NULL_MSG = "The property is null";
 
-private static final String PROPERTY_NULL_MSG = "The property is null";
+private static final Logger LOG = LogManager.getLogger();
 
 public static void destroyScope() {
 	LOG.entry();
@@ -36,21 +36,24 @@ public static void destroyScope() {
 
 @Override
 public Class<?> getCommonPropertyType(ELContext context, Object base) {
+	LOG.entry(context, base);
 	if (base != null) {
-		return null;
+		return LOG.exit(null);
 	}
-	return String.class;
+	return LOG.exit(String.class);
 }
 
 @Override
 public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context,
 														 Object base) {
-	return Collections.<FeatureDescriptor>emptyListIterator();
+	LOG.entry(context, base);
+	return LOG.exit(Collections.<FeatureDescriptor>emptyListIterator());
 }
 
 @Override
 public Class<?> getType(ELContext context, Object base, Object property) {
-	return Object.class;
+	LOG.entry(context, base, property);
+	return LOG.exit(Object.class);
 }
 
 @Override
@@ -81,13 +84,14 @@ public Object getValue(ELContext context, Object scope, Object property) {
 
 @Override
 public boolean isReadOnly(ELContext context, Object base, Object property) {
-	return true;
+	LOG.entry(context, base, property);
+	return LOG.exit(true);
 }
 
 @Override
 public void setValue(ELContext context, Object base, Object property,
 					 Object value) {
-	//TODO: I don't know why is this.
+	LOG.entry(context, base, property, value);
 }
 
 private TaskScope getScope(ELContext context) {
@@ -110,9 +114,10 @@ private TaskScope getScope(ELContext context) {
 }
 
 private Object lookupBean(ELContext context, TaskScope scope, String key) {
+	LOG.entry(context, scope, key);
 	//looking for mbean in taskScope
 	Object value = scope.getValue(key);
 	context.setPropertyResolved(value != null);
-	return value;
+	return LOG.exit(value);
 }
 }

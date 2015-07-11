@@ -1,4 +1,4 @@
-package onl.identitas.identity.web;
+package onl.identitas.identity.web.controller;
 
 @SuppressWarnings("ClassWithoutLogger")
 public class ManagerException extends Exception {

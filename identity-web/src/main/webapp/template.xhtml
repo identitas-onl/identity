@@ -10,7 +10,9 @@
 		<h:outputStylesheet library="css/1_1" name="common.css"/>
 		<h:outputScript     library="js" name="menu.js" target="head"/>
 		<h:outputScript     library="javax.faces" name="jsf.js"/>
+
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 		<title>
 			<ui:insert name="pageTitle">
 				<h:outputText value="#{i18n['template.title']}"></h:outputText>
@@ -22,6 +24,7 @@
 		<div align="center">
 			<h:panelGrid  width="990">
 				<scrum:menu image="#{resource['images/menu:barraSuperior-04.png']}" />
+
 				<h:form id="navigationBar">
 					<div class="navBarClass">
 						<ui:insert name="navigationBar"></ui:insert>
@@ -33,14 +36,17 @@
 						<h:outputText value=""></h:outputText>
 					</f:facet>
 
-					<table class="tableBody"><tr><td>
+					<table class="tableBody">
+						<tr>
+							<td>
 								<table align="center">
-									<tr><td>
-											<ui:insert name="content"></ui:insert>
-										</td></tr>
+									<tr>
+										<td><ui:insert name="content"></ui:insert></td>
+									</tr>
 								</table>
-							</td></tr></table>
-
+							</td>
+						</tr>
+					</table>
 
 					<f:facet name="footer">
 						<h:graphicImage value="/resources/images/lousaNova/quadroNegro_botton_990x120.png" ></h:graphicImage>
