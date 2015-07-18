@@ -3,8 +3,8 @@
  *
  * Copyright 1997-2010 Oracle and/or its affiliates. All rights reserved.
 
-Oracle and Java are registered trademarks of Oracle and/or its affiliates.
-Other names may be trademarks of their respective owners.
+ Oracle and Java are registered trademarks of Oracle and/or its affiliates.
+ Other names may be trademarks of their respective owners.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -36,19 +36,19 @@ Other names may be trademarks of their respective owners.
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package onl.identitas.identity.ejb.entities;
 
 import java.io.Serializable;
 
 /**
  *
- * @author Dr. Spock (spock at dev.java.net)
+ * @author José M. Fernández-Alba <jmfernandezdalba@gmail.com>
+ * @param <PK> the type of the primary key.
  */
 public interface PersistentEntity<PK extends Serializable> extends Serializable {
 
-    PK getId();
+PK getId();
 
-    boolean isNew();
-    
+boolean isNew();
+
 }

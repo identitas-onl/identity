@@ -3,8 +3,8 @@
  *
  * Copyright 1997-2010 Oracle and/or its affiliates. All rights reserved.
 
-Oracle and Java are registered trademarks of Oracle and/or its affiliates.
-Other names may be trademarks of their respective owners.
+ Oracle and Java are registered trademarks of Oracle and/or its affiliates.
+ Other names may be trademarks of their respective owners.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -36,40 +36,42 @@ Other names may be trademarks of their respective owners.
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package onl.identitas.identity.ejb.entities;
 
 import javax.faces.context.FacesContext;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-//import onl.identitas.identity.web.controller.SprintManager;
+import onl.identitas.identity.ejb.controller.SprintManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class SprintNameUniquenessConstraintValidator implements ConstraintValidator<SprintNameUniquenessConstraint, String> {
+public class SprintNameUniquenessConstraintValidator implements
+        ConstraintValidator<SprintNameUniquenessConstraint, String> {
 
-	@Override
-    public boolean isValid(String value, ConstraintValidatorContext ctx) {
-        /*
-        FacesContext context = FacesContext.getCurrentInstance();
-        SprintManager sprintManager = (SprintManager)
-                context.getApplication().evaluateExpressionGet(context, 
-                "#{sprintManager}", SprintManager.class);
-        boolean result = true;
-        String message = sprintManager.
-                checkUniqueSprintNameApplicationValidatorMethod(value);
-        if (null != message) {
-            result = false;
-	    ConstraintValidatorContext.ConstraintViolationBuilder builder =
-		ctx.buildConstraintViolationWithTemplate(message);
-	    builder.addConstraintViolation();
-        }
+private static final Logger LOG = LogManager.getLogger();
 
-        
-        return result;*/
-		return false;
+@Override
+public boolean isValid(String value, ConstraintValidatorContext ctx) {
+
+    FacesContext context = FacesContext.getCurrentInstance();
+    SprintManager sprintManager = context.getApplication()
+            .evaluateExpressionGet(context, "#{sprintManager}",
+                                   SprintManager.class);
+    String message = sprintManager.
+            checkUniqueSprintNameApplicationValidatorMethod(value);
+
+    if (message != null) {
+        ConstraintValidatorContext.ConstraintViolationBuilder builder = ctx
+                .buildConstraintViolationWithTemplate(message);
+        builder.addConstraintViolation();
+        return false;
+    } else {
+        return true;
     }
+}
 
-	@Override
-    public void initialize(SprintNameUniquenessConstraint arg0) {
-    }
-    
+@Override
+public void initialize(SprintNameUniquenessConstraint constraint) {
+    LOG.entry(constraint);
+}
 }

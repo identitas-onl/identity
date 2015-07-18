@@ -1,5 +1,6 @@
 package onl.identitas.identity.web.controller;
 
+import onl.identitas.identity.ejb.controller.AbstractManager;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;

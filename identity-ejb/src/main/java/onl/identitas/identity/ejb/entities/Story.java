@@ -3,8 +3,8 @@
  *
  * Copyright 1997-2010 Oracle and/or its affiliates. All rights reserved.
 
-Oracle and Java are registered trademarks of Oracle and/or its affiliates.
-Other names may be trademarks of their respective owners.
+ Oracle and Java are registered trademarks of Oracle and/or its affiliates.
+ Other names may be trademarks of their respective owners.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -36,192 +36,201 @@ Other names may be trademarks of their respective owners.
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package onl.identitas.identity.ejb.entities;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
 
 /**
  * @author Dr. Spock (spock at dev.java.net)
  */
 @Entity
-@Table(name = "stories", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "sprint_id"}))
-@NamedQueries({@NamedQuery(name = "story.countByNameAndSprint", query = "select count(s) from Story as s where s.name = :name and s.sprint = :sprint and not(s = :currentStory)"),
-        @NamedQuery(name = "story.new.countByNameAndSprint", query = "select count(s) from Story as s where s.name = :name and s.sprint = :sprint")})
+@Table(name = "stories", uniqueConstraints = @UniqueConstraint(columnNames = {
+    "name", "sprint_id"}))
+@NamedQueries({
+    @NamedQuery(name = "story.countByNameAndSprint",
+                query
+                        = "select count(s) from Story as s where s.name = :name and s.sprint = :sprint and not(s = :currentStory)"),
+    @NamedQuery(name = "story.new.countByNameAndSprint",
+                query
+                        = "select count(s) from Story as s where s.name = :name and s.sprint = :sprint")})
 public class Story extends AbstractEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Column(nullable = false)
-    private String name;
-    private int priority;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "start_date", nullable = false)
-    private Date startDate;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "end_date")
-    private Date endDate;
-    private String acceptance;
-    private int estimation;
-    @ManyToOne
-    @JoinColumn(name = "sprint_id")
-    private Sprint sprint;
-    @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
-    private List<Task> tasks;
+private static final long serialVersionUID = 1L;
 
-    public Story() {
-        this.startDate = new Date();
-    }
+private static final Logger LOG = LogManager.getLogger();
 
-    public Story(String name) {
-        this();
-        this.name = name;
-    }
+@Column(nullable = false)
+private String name;
+private int priority;
+@Temporal(TemporalType.DATE)
+@Column(name = "start_date", nullable = false)
+private LocalDate startDate;
+@Temporal(TemporalType.DATE)
+@Column(name = "end_date")
+private LocalDate endDate;
+private String acceptance;
+private int estimation;
+@ManyToOne
+@JoinColumn(name = "sprint_id")
+private Sprint sprint;
+@OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
+private List<Task> tasks;
 
-    public Story(String name, Sprint sprint) {
-        this(name);
-        this.name = name;
-        if (sprint != null) {
-            sprint.addStory(this);
-        }
-    }
+public Story() {
+    this(null);
+}
 
-    public String getAcceptance() {
-        return acceptance;
-    }
+public Story(String name) {
+    this.name = name;
+    this.startDate = LocalDate.now();
+}
 
-    public void setAcceptance(String acceptance) {
-        this.acceptance = acceptance;
-    }
+public String getAcceptance() {
+    return acceptance;
+}
 
-    public Date getEndDate() {
-        return endDate;
-    }
+public void setAcceptance(String acceptance) {
+    this.acceptance = acceptance;
+}
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+public LocalDate getEndDate() {
+    return endDate;
+}
 
-    public int getEstimation() {
-        return estimation;
-    }
+public void setEndDate(LocalDate endDate) {
+    this.endDate = endDate;
+}
 
-    public void setEstimation(int estimation) {
-        this.estimation = estimation;
-    }
+public int getEstimation() {
+    return estimation;
+}
 
-    public String getName() {
-        return name;
-    }
+public void setEstimation(int estimation) {
+    this.estimation = estimation;
+}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+public String getName() {
+    return name;
+}
 
-    public int getPriority() {
-        return priority;
-    }
+public void setName(String name) {
+    this.name = name;
+}
 
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
+public int getPriority() {
+    return priority;
+}
 
-    public Sprint getSprint() {
-        return sprint;
-    }
+public void setPriority(int priority) {
+    this.priority = priority;
+}
 
-    public void setSprint(Sprint sprint) {
-        this.sprint = sprint;
-    }
+public Sprint getSprint() {
+    return sprint;
+}
 
-    public Date getStartDate() {
-        return startDate;
-    }
+void setSprint(Sprint sprint) {
+    LOG.entry(sprint);
+    this.sprint = sprint;
+}
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
+public LocalDate getStartDate() {
+    return startDate;
+}
 
-    public List<Task> getTasks() {
-        return (tasks != null) ? Collections.unmodifiableList(tasks) : Collections.EMPTY_LIST;
-    }
+public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
+}
 
-    public List<Task> getDoneTasks() {
-        return Collections.unmodifiableList(getTasks(TaskStatus.DONE));
-    }
+public List<Task> getTasks() {
+    return (tasks != null) ? unmodifiableList(tasks) : emptyList();
+}
 
-    public List<Task> getWorkingTasks() {
-        return Collections.unmodifiableList(getTasks(TaskStatus.WORKING));
-    }
+public List<Task> getDoneTasks() {
+    return unmodifiableList(getTasks(TaskStatus.DONE));
+}
 
-    public List<Task> getTodoTasks() {
-        return Collections.unmodifiableList(getTasks(TaskStatus.TODO));
-    }
+public List<Task> getWorkingTasks() {
+    return unmodifiableList(getTasks(TaskStatus.WORKING));
+}
 
-    private List<Task> getTasks(TaskStatus status) {
-        List<Task> result = new LinkedList<Task>();
-        if (tasks != null && !tasks.isEmpty()) {
-            for (Task task : tasks) {
-                if (task != null && status.equals(task.getStatus())) {
-                    result.add(task);
-                }
-            }
-        }
-        return result;
-    }
+public List<Task> getTodoTasks() {
+    return unmodifiableList(getTasks(TaskStatus.TODO));
+}
 
-    public boolean addTask(Task task) {
-        if (tasks == null) {
-            tasks = new LinkedList<Task>();
-        }
-        if (task != null && !tasks.contains(task)) {
-            tasks.add(task);
-            task.setStory(this);
-            return true;
-        }
-        return false;
+private List<Task> getTasks(TaskStatus status) {
+    List<Task> result = new LinkedList<>();
+    if (tasks != null) {
+        tasks.stream()
+                .filter((task) -> (task != null && status.equals(task
+                                   .getStatus())))
+                .forEach((task) -> {
+            result.add(task);
+        });
     }
+    return result;
+}
 
-    public boolean removeTask(Task task) {
-        if (tasks != null && !tasks.isEmpty()) {
-            return tasks.remove(task);
-        } else {
-            return false;
-        }
+public boolean addTask(Task task) {
+    LOG.entry(task);
+    if (tasks == null) {
+        tasks = new LinkedList<>();
     }
+    if (!tasks.contains(task)) {
+        task.setStory(this);
+        tasks.add(task);
+        return LOG.exit(true);
+    } else {
+        return LOG.exit(false);
+    }
+}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Story other = (Story) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        if (this.sprint != other.sprint && (this.sprint == null || !this.sprint.equals(other.sprint))) {
-            return false;
-        }
-        return true;
+public boolean removeTask(Task task) {
+    LOG.entry(task);
+    if (tasks != null && tasks.remove(task)) {
+        task.setStory(null);
+        return LOG.exit(true);
+    } else {
+        return LOG.exit(false);
     }
+}
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + (this.name != null ? this.name.hashCode() : 0);
-        hash = 23 * hash + (this.sprint != null ? this.sprint.hashCode() : 0);
-        return hash;
-    }
+@Override
+@SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+public boolean equals(Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
+}
 
-    @Override
-    public String toString() {
-        return "Story[name=" + name + ",startDate=" + startDate + ",sprint=" + sprint + "]";
-    }
+@Override
+public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+}
+
+@Override
+public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+}
 }

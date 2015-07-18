@@ -3,8 +3,8 @@
  *
  * Copyright 1997-2010 Oracle and/or its affiliates. All rights reserved.
 
-Oracle and Java are registered trademarks of Oracle and/or its affiliates.
-Other names may be trademarks of their respective owners.
+ Oracle and Java are registered trademarks of Oracle and/or its affiliates.
+ Other names may be trademarks of their respective owners.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -36,7 +36,6 @@ Other names may be trademarks of their respective owners.
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package onl.identitas.identity.ejb.entities;
 
 import java.lang.annotation.Documented;
@@ -49,15 +48,14 @@ import javax.validation.Payload;
 
 @Documented
 @Constraint(validatedBy = SprintNameUniquenessConstraintValidator.class)
-@Target({ ElementType.METHOD, ElementType.FIELD })
+@Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SprintNameUniquenessConstraint {
-    
-	String message() default "{sprint.form.label.name.unique}";
 
-	Class<?>[] groups() default {};
+String message() default "{sprint.form.label.name.unique}";
 
-    Class<? extends Payload>[] payload() default {};
-    
+Class<?>[] groups() default {};
+
+Class<? extends Payload>[] payload() default {};
 
 }

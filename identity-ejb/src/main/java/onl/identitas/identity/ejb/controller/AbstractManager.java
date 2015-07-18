@@ -1,4 +1,4 @@
-package onl.identitas.identity.web.controller;
+package onl.identitas.identity.ejb.controller;
 
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -27,6 +27,12 @@ import org.apache.logging.log4j.message.FormattedMessageFactory;
  * @author Dr. Spock (spock at dev.java.net)
  */
 public abstract class AbstractManager {
+
+public static final String CREATE_RESULT = "create";
+public static final String SHOW_RESULT = "show";
+public static final String EDIT_RESULT = "edit";
+public static final String SHOW_SPRINTS_RESULT = "showSprints";
+public static final String VIEW_SPRINTS_RESULT = "/sprint/show";
 
 public static final String DO_IN_TRANSACTION_ERROR_MSG
 								   = "Exception during transaction: ";

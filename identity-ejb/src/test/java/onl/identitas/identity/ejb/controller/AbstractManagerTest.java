@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package onl.identitas.identity.web.controller;
+package onl.identitas.identity.ejb.controller;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -33,7 +33,7 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static onl.identitas.identity.web.controller.AbstractManager.DO_IN_TRANSACTION_ERROR_MSG;
+import static onl.identitas.identity.ejb.controller.AbstractManager.DO_IN_TRANSACTION_ERROR_MSG;
 import static org.assertj.core.api.StrictAssertions.assertThat;
 import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.mockito.Mockito.doThrow;
@@ -63,7 +63,7 @@ private Function<EntityManager, String> functionMock;
 @Mock
 private Consumer<EntityManager> consumerMock;
 @InjectMocks
-private SkinUrlManager manager;
+private ProjectManager manager;
 
 @BeforeMethod
 public void setUpMethod() throws Exception {

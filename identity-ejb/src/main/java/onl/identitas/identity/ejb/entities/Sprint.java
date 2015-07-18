@@ -3,8 +3,8 @@
  *
  * Copyright 1997-2010 Oracle and/or its affiliates. All rights reserved.
 
-Oracle and Java are registered trademarks of Oracle and/or its affiliates.
-Other names may be trademarks of their respective owners.
+ Oracle and Java are registered trademarks of Oracle and/or its affiliates.
+ Other names may be trademarks of their respective owners.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -36,179 +36,195 @@ Other names may be trademarks of their respective owners.
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package onl.identitas.identity.ejb.entities;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
 
 /**
  * @author Dr. Spock (spock at dev.java.net)
  */
 @Entity
-@Table(name = "sprints", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "project_id"}))
-@NamedQueries({@NamedQuery(name = "sprint.countByNameAndProject", query = "select count(s) from Sprint as s where s.name = :name and s.project = :project and not(s = :currentSprint)"),
-        @NamedQuery(name = "sprint.new.countByNameAndProject", query = "select count(s) from Sprint as s where s.name = :name and s.project = :project")})
+@Table(name = "sprints", uniqueConstraints = @UniqueConstraint(columnNames = {
+    "name", "project_id"}))
+@NamedQueries({
+    @NamedQuery(name = "sprint.countByNameAndProject",
+                query
+                        = "select count(s) from Sprint as s where s.name = :name and s.project = :project and not(s = :currentSprint)"),
+    @NamedQuery(name = "sprint.new.countByNameAndProject",
+                query
+                        = "select count(s) from Sprint as s where s.name = :name and s.project = :project")})
 public class Sprint extends AbstractEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Column(nullable = false)
-    private String name;
-    private String goals;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "start_date", nullable = false)
-    private Date startDate;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "end_date")
-    private Date endDate;
-    @Column(name = "iteration_scope")
-    private int iterationScope;
-    @Column(name = "gained_story_points")
-    private int gainedStoryPoints;
-    @Temporal(TemporalType.TIME)
-    @Column(name = "daily_meeting_time")
-    private Date dailyMeetingTime;
-    @OneToMany(mappedBy = "sprint", cascade = CascadeType.ALL)
-    private List<Story> stories;
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
+private static final long serialVersionUID = 1L;
 
-    public Sprint() {
-        this.startDate = new Date();
-    }
+private static final Logger LOG = LogManager.getLogger();
 
-    public Sprint(String name) {
-        this();
-        this.name = name;
-    }
+@Column(nullable = false)
+private String name;
+private String goals;
+@Temporal(TemporalType.DATE)
+@Column(name = "start_date", nullable = false)
+private LocalDate startDate;
+@Temporal(TemporalType.DATE)
+@Column(name = "end_date")
+private LocalDate endDate;
+@Column(name = "iteration_scope")
+private int iterationScope;
+@Column(name = "gained_story_points")
+private int gainedStoryPoints;
+@Temporal(TemporalType.TIME)
+@Column(name = "daily_meeting_time")
+private LocalTime dailyMeetingTime;
+@OneToMany(mappedBy = "sprint", cascade = CascadeType.ALL)
+private List<Story> stories;
+@ManyToOne
+@JoinColumn(name = "project_id")
+private Project project;
 
-    public Sprint(String name, Project project) {
-        this(name);
-        this.project = project;
-    }
+public Sprint() {
+    this.startDate = LocalDate.now();
+}
 
-    @SprintNameUniquenessConstraint
-    public String getName() {
-        return name;
-    }
+public Sprint(String name) {
+    this();
+    this.name = name;
+}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+public Sprint(String name, Project project) {
+    this(name);
+    this.project = project;
+}
 
-    public String getGoals() {
-        return goals;
-    }
+@SprintNameUniquenessConstraint
+public String getName() {
+    return name;
+}
 
-    public void setGoals(String goals) {
-        this.goals = goals;
-    }
+public void setName(String name) {
+    this.name = name;
+}
 
-    public Date getStartDate() {
-        return startDate;
-    }
+public String getGoals() {
+    return goals;
+}
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
+public void setGoals(String goals) {
+    this.goals = goals;
+}
 
-    public Date getEndDate() {
-        return endDate;
-    }
+public LocalDate getStartDate() {
+    return startDate;
+}
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
+}
 
-    public int getIterationScope() {
-        return iterationScope;
-    }
+public LocalDate getEndDate() {
+    return endDate;
+}
 
-    public void setIterationScope(int iterationScope) {
-        this.iterationScope = iterationScope;
-    }
+public void setEndDate(LocalDate endDate) {
+    this.endDate = endDate;
+}
 
-    public int getGainedStoryPoints() {
-        return gainedStoryPoints;
-    }
+public int getIterationScope() {
+    return iterationScope;
+}
 
-    public void setGainedStoryPoints(int gainedStoryPoints) {
-        this.gainedStoryPoints = gainedStoryPoints;
-    }
+public void setIterationScope(int iterationScope) {
+    this.iterationScope = iterationScope;
+}
 
-    public Date getDailyMeetingTime() {
-        return dailyMeetingTime;
-    }
+public int getGainedStoryPoints() {
+    return gainedStoryPoints;
+}
 
-    public void setDailyMeetingTime(Date dailyMeetingTime) {
-        this.dailyMeetingTime = dailyMeetingTime;
-    }
+public void setGainedStoryPoints(int gainedStoryPoints) {
+    this.gainedStoryPoints = gainedStoryPoints;
+}
 
-    public List<Story> getStories() {
-        return (stories != null) ? Collections.unmodifiableList(stories) : Collections.EMPTY_LIST;
-    }
+public LocalTime getDailyMeetingTime() {
+    return dailyMeetingTime;
+}
 
-    public boolean addStory(Story story) {
-        if (stories == null) {
-            stories = new LinkedList<Story>();
-        }
-        if (story != null && !stories.contains(story)) {
-            stories.add(story);
-            story.setSprint(this);
-            return true;
-        }
-        return false;
-    }
+public void setDailyMeetingTime(LocalTime dailyMeetingTime) {
+    this.dailyMeetingTime = dailyMeetingTime;
+}
 
-    public boolean removeStory(Story story) {
-        if (stories != null && !stories.isEmpty()) {
-            return stories.remove(story);
-        } else {
-            return false;
-        }
-    }
+public List<Story> getStories() {
+    return (stories != null) ? unmodifiableList(stories) : emptyList();
+}
 
-    public Project getProject() {
-        return project;
+public boolean addStory(Story story) {
+    LOG.entry(story);
+    if (stories == null) {
+        stories = new LinkedList<>();
     }
+    if (!stories.contains(story)) {
+        story.setSprint(this);
+        stories.add(story);
+        return LOG.exit(true);
+    } else {
+        return LOG.exit(false);
+    }
+}
 
-    public void setProject(Project project) {
-        this.project = project;
+public boolean removeStory(Story story) {
+    LOG.entry(story);
+    if (stories != null && stories.remove(story)) {
+        story.setSprint(null);
+        return LOG.exit(true);
+    } else {
+        return LOG.exit(false);
     }
+}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Sprint other = (Sprint) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        if (this.project != other.project && (this.project == null || !this.project.equals(other.project))) {
-            return false;
-        }
-        return true;
-    }
+public Project getProject() {
+    return project;
+}
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + (this.name != null ? this.name.hashCode() : 0);
-        hash = 97 * hash + (this.project != null ? this.project.hashCode() : 0);
-        return hash;
-    }
+void setProject(Project project) {
+    this.project = project;
+}
 
-    @Override
-    public String toString() {
-        return "Sprint[name=" + name + ",startDate=" + startDate + ",project=" + project + "]";
-    }
+@Override
+@SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+public boolean equals(Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
+}
+
+@Override
+public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+}
+
+@Override
+public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+}
 }

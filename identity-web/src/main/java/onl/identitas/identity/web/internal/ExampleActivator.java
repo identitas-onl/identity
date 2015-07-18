@@ -31,11 +31,11 @@ private static final Logger LOG = LogManager.getLogger();
 
 @Override
 public void start(BundleContext bc) throws Exception {
-	LOG.entry(bc);
+    LOG.entry(bc);
 }
 
 @Override
 public void stop(BundleContext bc) throws Exception {
-	LOG.entry(bc);
+    LOG.entry(bc);
 }
 }

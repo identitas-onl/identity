@@ -3,8 +3,8 @@
  *
  * Copyright 1997-2010 Oracle and/or its affiliates. All rights reserved.
 
-Oracle and Java are registered trademarks of Oracle and/or its affiliates.
-Other names may be trademarks of their respective owners.
+ Oracle and Java are registered trademarks of Oracle and/or its affiliates.
+ Other names may be trademarks of their respective owners.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -36,7 +36,6 @@ Other names may be trademarks of their respective owners.
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package onl.identitas.identity.ejb.entities;
 
 import javax.persistence.GeneratedValue;
@@ -51,29 +50,33 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class AbstractEntity implements PersistentEntity<Long> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    public Long getId() {
-        return this.id;
-    }
+private static final long serialVersionUID = 1L;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
 
-    public boolean isNew() {
-        return (this.id == null);
-    }
+@Override
+public Long getId() {
+	return this.id;
+}
 
-    @Override
-    public abstract boolean equals(Object object);
+public void setId(Long id) {
+	this.id = id;
+}
 
-    @Override
-    public abstract int hashCode();
+@Override
+public boolean isNew() {
+	return (this.id == null);
+}
 
-    @Override
-    public abstract String toString();
-    
+@Override
+public abstract boolean equals(Object object);
+
+@Override
+public abstract int hashCode();
+
+@Override
+public abstract String toString();
+
 }

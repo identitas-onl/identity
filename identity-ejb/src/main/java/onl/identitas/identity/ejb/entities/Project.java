@@ -3,8 +3,8 @@
  *
  * Copyright 1997-2010 Oracle and/or its affiliates. All rights reserved.
 
-Oracle and Java are registered trademarks of Oracle and/or its affiliates.
-Other names may be trademarks of their respective owners.
+ Oracle and Java are registered trademarks of Oracle and/or its affiliates.
+ Other names may be trademarks of their respective owners.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -36,12 +36,10 @@ Other names may be trademarks of their respective owners.
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package onl.identitas.identity.ejb.entities;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -53,116 +51,124 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
 
 /**
  * @author Dr. Spock (spock at dev.java.net)
  */
 @Entity
 @Table(name = "projects")
-@NamedQueries({@NamedQuery(name = "project.getAll", query = "select p from Project as p"),
-        @NamedQuery(name = "project.getAllOpen", query = "select p from Project as p where p.endDate is null"),
-        @NamedQuery(name = "project.countByName", query = "select count(p) from Project as p where p.name = :name and not(p = :currentProject)"),
-        @NamedQuery(name = "project.new.countByName", query = "select count(p) from Project as p where p.name = :name")})
+@NamedQueries({
+    @NamedQuery(name = "project.getAll", query = "select p from Project as p"),
+    @NamedQuery(name = "project.getAllOpen",
+                query = "select p from Project as p where p.endDate is null"),
+    @NamedQuery(name = "project.countByName",
+                query
+                        = "select count(p) from Project as p where p.name = :name and not(p = :currentProject)"),
+    @NamedQuery(name = "project.new.countByName",
+                query = "select count(p) from Project as p where p.name = :name")})
 public class Project extends AbstractEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Column(nullable = false, unique = true)
-    private String name;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "start_date", nullable = false)
-    private Date startDate;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "end_date")
-    private Date endDate;
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private List<Sprint> sprints;
+private static final long serialVersionUID = 1L;
 
-    public Project() {
-        this.startDate = new Date();
-    }
+private static final Logger LOG = LogManager.getLogger();
 
-    public Project(String name) {
-        this();
-        this.name = name;
-    }
+@Column(nullable = false, unique = true)
+private String name;
+@Temporal(TemporalType.DATE)
+@Column(name = "start_date", nullable = false)
+private LocalDate startDate;
+@Temporal(TemporalType.DATE)
+@Column(name = "end_date")
+private LocalDate endDate;
+@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+private List<Sprint> sprints;
 
-    public Project(String name, Date startDate) {
-        this(name);
-        this.startDate = startDate;
-    }
+public Project() {
+    this(null, LocalDate.now());
+}
 
-    public String getName() {
-        return name;
-    }
+public Project(String name) {
+    this(name, LocalDate.now());
+}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+public Project(String name, LocalDate startDate) {
+    this.name = name;
+    this.startDate = startDate;
+}
 
-    public Date getStartDate() {
-        return startDate;
-    }
+public String getName() {
+    return name;
+}
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
+public void setName(String name) {
+    this.name = name;
+}
 
-    public Date getEndDate() {
-        return endDate;
-    }
+public LocalDate getStartDate() {
+    return startDate;
+}
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
+}
 
-    public List<Sprint> getSprints() {
-        return (sprints != null) ? Collections.unmodifiableList(sprints) : Collections.EMPTY_LIST;
-    }
+public LocalDate getEndDate() {
+    return endDate;
+}
 
-    public boolean addSprint(Sprint sprint) {
-        if (sprints == null) {
-            sprints = new LinkedList<Sprint>();
-        }
-        if (sprint != null && !sprints.contains(sprint)) {
-            sprints.add(sprint);
-            sprint.setProject(this);
-            return true;
-        }
-        return false;
-    }
+public void setEndDate(LocalDate endDate) {
+    this.endDate = endDate;
+}
 
-    public boolean removeSpring(Sprint sprint) {
-        if (sprints != null && !sprints.isEmpty()) {
-            return sprints.remove(sprint);
-        } else {
-            return false;
-        }
-    }
+public List<Sprint> getSprints() {
+    return (sprints != null) ? unmodifiableList(sprints) : emptyList();
+}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Project other = (Project) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        return true;
+public boolean addSprint(Sprint sprint) {
+    LOG.entry(sprint);
+    if (sprints == null) {
+        sprints = new LinkedList<>();
     }
+    if (!sprints.contains(sprint)) {
+        sprint.setProject(this);
+        sprints.add(sprint);
+        return LOG.exit(true);
+    } else {
+        return LOG.exit(false);
+    }
+}
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + (this.name != null ? this.name.hashCode() : 0);
-        return hash;
+public boolean removeSprint(Sprint sprint) {
+    LOG.entry(sprint);
+    if (sprints != null && sprints.remove(sprint)) {
+        sprint.setProject(null);
+        return LOG.exit(true);
+    } else {
+        return LOG.exit(false);
     }
+}
 
-    @Override
-    public String toString() {
-        return "Project[name=" + name + ",startDate=" + startDate + ",endDate=" + endDate + "]";
-    }
+@Override
+@SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+public boolean equals(Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
+}
+
+@Override
+public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+}
+
+@Override
+public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+}
 }

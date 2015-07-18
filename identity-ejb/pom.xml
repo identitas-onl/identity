@@ -1,39 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<parent>
-		<relativePath>../poms/compiled/</relativePath>
-		<groupId>onl.identitas.identity.build</groupId>
-		<artifactId>compiled-bundle-settings</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <relativePath>../poms/compiled/</relativePath>
+        <groupId>onl.identitas.identity.build</groupId>
+        <artifactId>compiled-bundle-settings</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-	<properties>
-		<bundle.symbolicName>onl.identitas.identity-ejb</bundle.symbolicName>
-		<bundle.namespace>onl.identitas.identity.ejb</bundle.namespace>
-	</properties>
+    <properties>
+        <bundle.symbolicName>onl.identitas.identity-ejb</bundle.symbolicName>
+        <bundle.namespace>onl.identitas.identity.ejb</bundle.namespace>
+        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+    </properties>
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>onl.identitas</groupId>
-	<artifactId>identity-ejb</artifactId>
-	<version>1.0-SNAPSHOT</version>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>onl.identitas</groupId>
+    <artifactId>identity-ejb</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
-	<name>${bundle.symbolicName} [${bundle.namespace}]</name>
+    <name>${bundle.symbolicName} [${bundle.namespace}]</name>
 
-	<packaging>ejb</packaging>
+    <packaging>ejb</packaging>
 
-	<dependencies>
-		<!--
-		 | uncomment to add all imported (non-local) bundles to your compilation classpath
-		<dependency>
-		  <type>pom</type>
-		  <groupId>${parent.groupId}</groupId>
-		  <artifactId>provision</artifactId>
-		  <optional>true</optional>
-		</dependency>
-		-->
-	</dependencies>
+    <dependencies>
+        <!--
+         | uncomment to add all imported (non-local) bundles to your compilation classpath
+        <dependency>
+          <type>pom</type>
+          <groupId>${parent.groupId}</groupId>
+          <artifactId>provision</artifactId>
+          <optional>true</optional>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerArguments>
+                        <endorseddirs>${endorsed.dir}</endorseddirs>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${endorsed.dir}</outputDirectory>
+                            <silent>true</silent>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>javax</groupId>
+                                    <artifactId>javaee-endorsed-api</artifactId>
+                                    <version>7.0</version>
+                                    <type>jar</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
