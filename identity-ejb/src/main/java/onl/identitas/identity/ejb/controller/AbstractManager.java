@@ -24,7 +24,7 @@ import org.apache.logging.log4j.message.FormattedMessageFactory;
 
 /**
  *
- * @author Dr. Spock (spock at dev.java.net)
+ * @author José M. Fernández-Alba @lt;jmfernandezdalba@gmail.com@gt;
  */
 public abstract class AbstractManager {
 
@@ -35,11 +35,11 @@ public static final String SHOW_SPRINTS_RESULT = "showSprints";
 public static final String VIEW_SPRINTS_RESULT = "/sprint/show";
 
 public static final String DO_IN_TRANSACTION_ERROR_MSG
-								   = "Exception during transaction: ";
+                                   = "Exception during transaction: ";
 
 private static final Logger LOG = LogManager.getLogger();
 private static final FormattedMessageFactory MSG_FACTORY
-													 = new FormattedMessageFactory();
+                                                     = new FormattedMessageFactory();
 
 @PersistenceUnit
 private EntityManagerFactory emf;
@@ -58,40 +58,40 @@ private UserTransaction userTransaction;
  * @throws ManagerException if there was any problem during transaction.
  */
 protected <T> T doInTransaction(Function<EntityManager, T> action) throws
-		ManagerException {
-	LOG.entry(action);
+        ManagerException {
+    LOG.entry(action);
 
-	EntityManager em = emf.createEntityManager();
-	try {
-		LOG.debug(MSG_FACTORY.newMessage("Executing action: {}", action));
+    EntityManager em = emf.createEntityManager();
+    try {
+        LOG.debug(MSG_FACTORY.newMessage("Executing action: {}", action));
 
-		userTransaction.begin();
+        userTransaction.begin();
 
-		T result = action.apply(em);
+        T result = action.apply(em);
 
-		userTransaction.commit();
+        userTransaction.commit();
 
-		LOG.debug("Action executed successfully");
+        LOG.debug("Action executed successfully");
 
-		return LOG.exit(result);
-	}
-	catch (NotSupportedException | SystemException | RollbackException |
-		   HeuristicMixedException | HeuristicRollbackException e) {
-		LOG.catching(e);
+        return LOG.exit(result);
+    }
+    catch (NotSupportedException | SystemException | RollbackException |
+           HeuristicMixedException | HeuristicRollbackException e) {
+        LOG.catching(e);
 
-		try {
-			userTransaction.rollback();
-		}
-		catch (SystemException ex) {
-			LOG.catching(ex);
-		}
+        try {
+            userTransaction.rollback();
+        }
+        catch (SystemException ex) {
+            LOG.catching(ex);
+        }
 
-		throw LOG.throwing(new ManagerException(DO_IN_TRANSACTION_ERROR_MSG + e
-				.getLocalizedMessage(), e));
-	}
-	finally {
-		em.close();
-	}
+        throw LOG.throwing(new ManagerException(DO_IN_TRANSACTION_ERROR_MSG + e
+                .getLocalizedMessage(), e));
+    }
+    finally {
+        em.close();
+    }
 }
 
 /**
@@ -102,58 +102,59 @@ protected <T> T doInTransaction(Function<EntityManager, T> action) throws
  * @throws ManagerException if there was any problem during transaction.
  */
 protected void doInTransaction(Consumer<EntityManager> action) throws
-		ManagerException {
-	LOG.entry(action);
+        ManagerException {
+    LOG.entry(action);
 
-	EntityManager em = emf.createEntityManager();
-	try {
-		LOG.debug(MSG_FACTORY.newMessage("Executing action: {}", action));
+    EntityManager em = emf.createEntityManager();
+    try {
+        LOG.debug(MSG_FACTORY.newMessage("Executing action: {}", action));
 
-		userTransaction.begin();
+        userTransaction.begin();
 
-		action.accept(em);
+        action.accept(em);
 
-		userTransaction.commit();
+        userTransaction.commit();
 
-		LOG.debug("Action executed successfully");
+        LOG.debug("Action executed successfully");
 
-		LOG.exit();
-	}
-	catch (HeuristicMixedException | HeuristicRollbackException |
-		   NotSupportedException | RollbackException | SystemException e) {
-		LOG.catching(e);
+        LOG.exit();
+    }
+    catch (HeuristicMixedException | HeuristicRollbackException |
+           NotSupportedException | RollbackException | SystemException e) {
+        LOG.catching(e);
 
-		try {
-			userTransaction.rollback();
-		}
-		catch (SystemException ex) {
-			LOG.catching(ex);
-		}
+        try {
+            userTransaction.rollback();
+        }
+        catch (SystemException ex) {
+            LOG.catching(ex);
+        }
 
-		throw LOG.throwing(new ManagerException(DO_IN_TRANSACTION_ERROR_MSG + e
-				.getLocalizedMessage(), e));
-	}
-	finally {
-		em.close();
-	}
+        throw LOG.throwing(new ManagerException(DO_IN_TRANSACTION_ERROR_MSG + e
+                .getLocalizedMessage(), e));
+    }
+    finally {
+        em.close();
+    }
 }
 
 protected void addMessage(String message) {
-	addMessage(null, message, FacesMessage.SEVERITY_INFO);
+    addMessage(null, message, FacesMessage.SEVERITY_INFO);
 }
 
 protected void addMessage(String componentId, String message) {
-	addMessage(componentId, message, FacesMessage.SEVERITY_INFO);
+    addMessage(componentId, message, FacesMessage.SEVERITY_INFO);
 }
 
 /**
- * Calls {@link #addMessage(String, String, Severity)} with a null componentId.
+ * Calls {@link AbstractManager#addMessage(String, FacesMessage.Severity)} with
+ * a null componentId.
  *
  * @param message localized summary message text.
  * @param severity the severity of the message.
  */
 protected void addMessage(String message, Severity severity) {
-	addMessage(null, message, severity);
+    addMessage(null, message, severity);
 }
 
 /**
@@ -167,49 +168,49 @@ protected void addMessage(String message, Severity severity) {
  * @param severity the severity of the message.
  */
 protected void addMessage(String componentId, String message, Severity severity) {
-	LOG.entry(componentId, message, severity);
-	FacesContext.getCurrentInstance().addMessage(componentId,
-												 new FacesMessage(severity,
-																  message,
-																  message));
-	LOG.exit();
+    LOG.entry(componentId, message, severity);
+    FacesContext.getCurrentInstance().addMessage(componentId,
+                                                 new FacesMessage(severity,
+                                                                  message,
+                                                                  message));
+    LOG.exit();
 }
 
 protected String getMessageForKey(String key) {
-	LOG.entry(key);
-	FacesContext ctx = FacesContext.getCurrentInstance();
-	ResourceBundle rb = ctx.getApplication().getResourceBundle(ctx, "i18n");
-	return LOG.exit(rb.getString(key));
+    LOG.entry(key);
+    FacesContext ctx = FacesContext.getCurrentInstance();
+    ResourceBundle rb = ctx.getApplication().getResourceBundle(ctx, "i18n");
+    return LOG.exit(rb.getString(key));
 }
 
 protected FacesMessage getFacesMessageForKey(String key) {
-	LOG.entry(key);
-	return LOG.exit(new FacesMessage(getMessageForKey(key)));
+    LOG.entry(key);
+    return LOG.exit(new FacesMessage(getMessageForKey(key)));
 }
 
 protected void publishEvent(Class<? extends SystemEvent> eventClass,
-							Object source) {
-	LOG.entry(eventClass, source);
-	if (source != null) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		ctx.getApplication().publishEvent(ctx, eventClass, source);
-	}
-	LOG.exit();
+                            Object source) {
+    LOG.entry(eventClass, source);
+    if (source != null) {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        ctx.getApplication().publishEvent(ctx, eventClass, source);
+    }
+    LOG.exit();
 }
 
 protected void subscribeToEvent(Class<? extends SystemEvent> eventClass,
-								SystemEventListener listener) {
-	LOG.entry(eventClass, listener);
-	FacesContext.getCurrentInstance().getApplication().subscribeToEvent(
-			eventClass, listener);
-	LOG.exit();
+                                SystemEventListener listener) {
+    LOG.entry(eventClass, listener);
+    FacesContext.getCurrentInstance().getApplication().subscribeToEvent(
+            eventClass, listener);
+    LOG.exit();
 }
 
 protected void unsubscribeFromEvent(Class<? extends SystemEvent> eventClass,
-									SystemEventListener listener) {
-	LOG.entry(eventClass, listener);
-	FacesContext.getCurrentInstance().getApplication().unsubscribeFromEvent(
-			eventClass, listener);
-	LOG.exit();
+                                    SystemEventListener listener) {
+    LOG.entry(eventClass, listener);
+    FacesContext.getCurrentInstance().getApplication().unsubscribeFromEvent(
+            eventClass, listener);
+    LOG.exit();
 }
 }

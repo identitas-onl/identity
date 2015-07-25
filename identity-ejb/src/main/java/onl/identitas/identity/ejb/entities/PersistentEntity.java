@@ -42,7 +42,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author José M. Fernández-Alba <jmfernandezdalba@gmail.com>
+ * @author José M. Fernández-Alba @lt;jmfernandezdalba@gmail.com@gt;
  * @param <PK> the type of the primary key.
  */
 public interface PersistentEntity<PK extends Serializable> extends Serializable {

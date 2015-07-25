@@ -32,8 +32,8 @@ public Object getValue(String key) {
 /**
  * Will call the postConstruct method.
  *
- * @param scopeName
- * @param facesContext
+ * @param scopeName name of the scope.
+ * @param facesContext the context of the application.
  */
 public void notifyCreate(String scopeName, FacesContext facesContext) {
 	LOG.entry(scopeName, facesContext);
@@ -47,8 +47,8 @@ public void notifyCreate(String scopeName, FacesContext facesContext) {
 /**
  * Will call the preDestroy method.
  *
- * @param scopeName
- * @param facesContext
+ * @param scopeName name of the scope.
+ * @param facesContext the context of the application.
  */
 public void notifyDestroy(String scopeName, FacesContext facesContext) {
 	LOG.entry(scopeName, facesContext);

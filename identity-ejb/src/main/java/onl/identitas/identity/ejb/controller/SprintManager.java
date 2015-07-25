@@ -60,7 +60,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * @author Dr. Spock (spock at dev.java.net)
+ * @author José M. Fernández-Alba @lt;jmfernandezdalba@gmail.com@gt;
  */
 @ManagedBean(name = "sprintManager")
 @SessionScoped

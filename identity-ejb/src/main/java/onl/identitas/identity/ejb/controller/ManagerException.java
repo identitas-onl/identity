@@ -1,5 +1,9 @@
 package onl.identitas.identity.ejb.controller;
 
+/**
+ * 
+ * @author José M. Fernández-Alba @lt;jmfernandezdalba@gmail.com@gt;
+ */
 @SuppressWarnings("ClassWithoutLogger")
 public class ManagerException extends Exception {
 
