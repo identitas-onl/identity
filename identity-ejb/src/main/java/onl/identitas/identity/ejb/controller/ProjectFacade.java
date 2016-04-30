@@ -28,7 +28,7 @@ import onl.identitas.identity.ejb.entities.Project;
 @Stateless
 public class ProjectFacade extends AbstractFacade<Project> {
 
-@PersistenceContext(unitName = "onl.identitas_identity-ejb_ejb_1.0-SNAPSHOTPU")
+@PersistenceContext(unitName = "identity_pu")
 private EntityManager em;
 
 public ProjectFacade() {

@@ -25,8 +25,8 @@ private static final Logger LOG = LogManager.getLogger();
 private final HashMap<String, Object> map = new HashMap<>(MAP_INITIAL_SIZE);
 
 public Object getValue(String key) {
-	LOG.entry(key);
-	return LOG.exit(map.get(key));
+    LOG.entry(key);
+    return LOG.exit(map.get(key));
 }
 
 /**
@@ -36,12 +36,12 @@ public Object getValue(String key) {
  * @param facesContext the context of the application.
  */
 public void notifyCreate(String scopeName, FacesContext facesContext) {
-	LOG.entry(scopeName, facesContext);
-	ScopeContext scopeContext = new ScopeContext(scopeName, map);
-	Application application = facesContext.getApplication();
-	application.publishEvent(facesContext, PostConstructCustomScopeEvent.class,
-							 scopeContext);
-	LOG.exit();
+    LOG.entry(scopeName, facesContext);
+    ScopeContext scopeContext = new ScopeContext(scopeName, map);
+    Application application = facesContext.getApplication();
+    application.publishEvent(facesContext, PostConstructCustomScopeEvent.class,
+                             scopeContext);
+    LOG.exit();
 }
 
 /**
@@ -51,11 +51,11 @@ public void notifyCreate(String scopeName, FacesContext facesContext) {
  * @param facesContext the context of the application.
  */
 public void notifyDestroy(String scopeName, FacesContext facesContext) {
-	LOG.entry(scopeName, facesContext);
-	ScopeContext scopeContext = new ScopeContext(scopeName, map);
-	Application application = facesContext.getApplication();
-	application.publishEvent(facesContext, PreDestroyCustomScopeEvent.class,
-							 scopeContext);
-	LOG.exit();
+    LOG.entry(scopeName, facesContext);
+    ScopeContext scopeContext = new ScopeContext(scopeName, map);
+    Application application = facesContext.getApplication();
+    application.publishEvent(facesContext, PreDestroyCustomScopeEvent.class,
+                             scopeContext);
+    LOG.exit();
 }
 }

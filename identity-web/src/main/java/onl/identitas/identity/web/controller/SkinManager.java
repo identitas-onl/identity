@@ -28,26 +28,26 @@ private String selectedSkin;
 
 @PostConstruct
 public void construct() {
-	LOG.entry();
-	selectedSkin = skinValuesManager.getDefaultSkinCss();
-	LOG.exit();
+    LOG.entry();
+    selectedSkin = skinValuesManager.getDefaultSkinCss();
+    LOG.exit();
 }
 
 public SkinValuesManager getSkinValuesManager() {
-	return LOG.exit(skinValuesManager);
+    return LOG.exit(skinValuesManager);
 }
 
 public void setSkinValuesManager(SkinValuesManager skinValuesManager) {
-	LOG.entry(skinValuesManager);
-	this.skinValuesManager = skinValuesManager;
+    LOG.entry(skinValuesManager);
+    this.skinValuesManager = skinValuesManager;
 }
 
 public String getSelectedSkin() {
-	return LOG.exit(selectedSkin);
+    return LOG.exit(selectedSkin);
 }
 
 public void setSelectedSkin(String selectedSkin) {
-	LOG.entry(selectedSkin);
-	this.selectedSkin = selectedSkin;
+    LOG.entry(selectedSkin);
+    this.selectedSkin = selectedSkin;
 }
 }

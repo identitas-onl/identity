@@ -1,21 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<ui:composition template="template.xhtml">
-		<f:metadata>
-			<f:viewParam name="skin" value="#{skinUrlManager.skin}" />
-			<f:event type="preRenderView" listener="#{skinUrlManager.update}" />
-		</f:metadata>
+    <ui:composition template="template.xhtml">
+        <f:metadata>
+            <f:viewParam name="skin" value="#{skinUrlManager.skin}" />
+            <f:event type="preRenderView" listener="#{skinUrlManager.update}" />
+        </f:metadata>
 
-		<ui:insert name="pageTitle">
-			<h:outputText value="#{i18n['template.title']}"></h:outputText>
-		</ui:insert>    
+        <ui:insert name="pageTitle">
+            <h:outputText value="#{i18n['template.title']}"></h:outputText>
+        </ui:insert>    
 
-		<ui:define name="content">
-			Welcome
-		</ui:define>
-	</ui:composition>
+        <ui:define name="content">
+            Welcome
+        </ui:define>
+    </ui:composition>
 </html>

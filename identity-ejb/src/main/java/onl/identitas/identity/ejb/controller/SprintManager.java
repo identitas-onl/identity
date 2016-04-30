@@ -71,7 +71,7 @@ private static final long serialVersionUID = 1L;
 private static final Logger LOG = LogManager.getLogger();
 
 private Sprint currentSprint;
-private DataModel<Sprint> sprints;
+private transient DataModel<Sprint> sprints;
 private List<Sprint> sprintList;
 @ManagedProperty("#{projectManager}")
 private ProjectManager projectManager;
@@ -84,7 +84,6 @@ public void construct() {
     pmCurrentProject.addSprint(sprint);
     setCurrentSprint(sprint);
     sprintList = new LinkedList<>(pmCurrentProject.getSprints());
-    sprints = new ListDataModel<>(sprintList);
 }
 
 @PreDestroy

@@ -71,25 +71,24 @@ private static final long serialVersionUID = 1L;
 private static final Logger LOG = LogManager.getLogger();
 
 private Project currentProject;
-private DataModel<Project> projects;
+private transient DataModel<Project> projects;
 private LinkedList<SelectItem> projectItems;
 private LinkedList<Project> projectList;
 
 @PostConstruct
 public void construct() {
-    Project project = new Project();
-    setCurrentProject(project);
+    setCurrentProject(new Project());
     init();
 }
 
 @PreDestroy
 public void destroy() {
     projects = null;
-    if (null != projectItems) {
+    if (projectItems != null) {
         projectItems.clear();
         projectItems = null;
     }
-    if (null != projectList) {
+    if (projectList != null) {
         projectList.clear();
         projectList = null;
     }
@@ -98,8 +97,9 @@ public void destroy() {
 
 @SuppressWarnings("unchecked")
 public void init() {
+    projectList = new LinkedList<>();
     try {
-        setProjectList(doInTransaction((EntityManager em) -> {
+        setProjectList(doInTransaction((em) -> {
             Query query = em.createNamedQuery("project.getAll");
             return (List<Project>) query.getResultList();
         }));
@@ -110,11 +110,10 @@ public void init() {
     projectItems = new LinkedList<>();
     projectItems.add(new SelectItem(new Project(), "-- Select one project --"));
     if (getProjectList() != null) {
-        projects = new ListDataModel<>(getProjectList());
         getProjectList().stream()
                 .forEach((p) -> {
-            projectItems.add(new SelectItem(p, p.getName()));
-        });
+                    projectItems.add(new SelectItem(p, p.getName()));
+                });
     }
 }
 
@@ -137,13 +136,13 @@ public String save() {
             });
             if (!currentProject.equals(merged)) {
                 setCurrentProject(merged);
-                int idx = getProjectList().indexOf(getCurrentProject());
+                int idx = projectList.indexOf(getCurrentProject());
                 if (idx != -1) {
-                    getProjectList().set(idx, merged);
+                    projectList.set(idx, merged);
                 }
             }
             if (!projectList.contains(merged)) {
-                getProjectList().add(merged);
+                projectList.add(merged);
             }
         }
         catch (ManagerException e) {
@@ -158,13 +157,13 @@ public String save() {
 }
 
 public String edit() {
-    setCurrentProject(projects.getRowData());
+    setCurrentProject(getProjects().getRowData());
     // Using implicity navigation, this request come from /projects/show.xhtml and directs to /project/edit.xhtml
     return EDIT_RESULT;
 }
 
 public String remove() {
-    final Project project = projects.getRowData();
+    final Project project = getProjects().getRowData();
     if (project != null) {
         try {
             doInTransaction((EntityManager em) -> {
@@ -219,7 +218,7 @@ public String cancelEdit() {
 }
 
 public String showSprints() {
-    setCurrentProject(projects.getRowData());
+    setCurrentProject(getProjects().getRowData());
     // Implicity navigation, this request come from /projects/show.xhtml and directs to /project/showSprints.xhtml
     return SHOW_SPRINTS_RESULT;
 }
@@ -233,6 +232,9 @@ public void setCurrentProject(Project currentProject) {
 }
 
 public DataModel<Project> getProjects() {
+    if (projects == null) {
+        setProjects(new ListDataModel<>(getProjectList()));
+    }
     return projects;
 }
 

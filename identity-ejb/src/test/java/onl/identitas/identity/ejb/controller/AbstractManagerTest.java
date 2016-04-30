@@ -38,8 +38,8 @@ import static org.assertj.core.api.StrictAssertions.assertThat;
 import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertEquals;
 
 /**
  *
@@ -47,8 +47,6 @@ import static org.testng.Assert.assertEquals;
  */
 @SuppressWarnings("ClassWithoutLogger")
 public class AbstractManagerTest {
-
-private static final long serialVersionUID = 1L;
 
 public static final String ACTION_RETURN = "return";
 
@@ -58,115 +56,130 @@ private EntityManagerFactory emf;
 private UserTransaction userTransaction;
 @Mock
 private EntityManager em;
-@Mock
-private Function<EntityManager, String> functionMock;
-@Mock
-private Consumer<EntityManager> consumerMock;
 @InjectMocks
 private ProjectManager manager;
 
 @BeforeMethod
-public void setUpMethod() throws Exception {
-	MockitoAnnotations.initMocks(this);
-	when(emf.createEntityManager()).thenReturn(em);
+public void setUp() throws Exception {
+    MockitoAnnotations.initMocks(this);
+    when(emf.createEntityManager()).thenReturn(em);
 }
 
 @Test
+@SuppressWarnings("unchecked")
 public void doInTransaction_Function() throws ManagerException,
-											  NotSupportedException,
-											  SystemException,
-											  RollbackException,
-											  HeuristicMixedException,
-											  HeuristicRollbackException {
-	//Arrange
-	when(functionMock.apply(em)).thenReturn(ACTION_RETURN);
+                                              NotSupportedException,
+                                              SystemException,
+                                              RollbackException,
+                                              HeuristicMixedException,
+                                              HeuristicRollbackException {
+    //Arrange
+    //-Parameters
+    Function<EntityManager, String> actionMock = mock(Function.class);
+    when(actionMock.apply(em)).thenReturn(ACTION_RETURN);
 
-	String expectedResult = ACTION_RETURN;
+    //-Expected result
+    String expectedResult = ACTION_RETURN;
 
-	//Act
-	String actualResult = manager.doInTransaction(functionMock);
+    //Act
+    String actualResult = manager.doInTransaction(actionMock);
 
-	//Assert
-	InOrder inOrder = inOrder(userTransaction, functionMock, em);
+    //Assert
+    InOrder inOrder = inOrder(userTransaction, actionMock, em);
 
-	inOrder.verify(userTransaction).begin();
-	inOrder.verify(functionMock).apply(em);
-	inOrder.verify(userTransaction).commit();
-	inOrder.verify(em).close();
+    inOrder.verify(userTransaction).begin();
+    inOrder.verify(actionMock).apply(em);
+    inOrder.verify(userTransaction).commit();
+    inOrder.verify(em).close();
 
-	assertEquals(actualResult, expectedResult);
+    assertThat(actualResult).isEqualTo(expectedResult);
 }
 
 @Test
+@SuppressWarnings("unchecked")
 public void doInTransaction_Consumer() throws ManagerException,
-											  NotSupportedException,
-											  SystemException,
-											  RollbackException,
-											  HeuristicMixedException,
-											  HeuristicRollbackException {
-	//Act
-	manager.doInTransaction(consumerMock);
+                                              NotSupportedException,
+                                              SystemException,
+                                              RollbackException,
+                                              HeuristicMixedException,
+                                              HeuristicRollbackException {
+    //Arrange
+    //-Parameters
+    Consumer<EntityManager> actionMock = mock(Consumer.class);
 
-	//Assert
-	InOrder inOrder = inOrder(userTransaction, consumerMock, em);
+    //Act
+    manager.doInTransaction(actionMock);
 
-	inOrder.verify(userTransaction).begin();
-	inOrder.verify(consumerMock).accept(em);
-	inOrder.verify(userTransaction).commit();
-	inOrder.verify(em).close();
+    //Assert
+    InOrder inOrder = inOrder(userTransaction, actionMock, em);
+
+    inOrder.verify(userTransaction).begin();
+    inOrder.verify(actionMock).accept(em);
+    inOrder.verify(userTransaction).commit();
+    inOrder.verify(em).close();
 }
 
 @Test
+@SuppressWarnings("unchecked")
 public void doInTransaction_Function_ExceptionThrown() throws ManagerException,
-															  NotSupportedException,
-															  SystemException,
-															  RollbackException,
-															  HeuristicMixedException,
-															  HeuristicRollbackException {
-	//Arrange
-	doThrow(SystemException.class).when(userTransaction).begin();
+                                                              NotSupportedException,
+                                                              SystemException,
+                                                              RollbackException,
+                                                              HeuristicMixedException,
+                                                              HeuristicRollbackException {
+    //Arrange
+    //-Parameters
+    Function<EntityManager, String> actionMock = mock(Function.class);
 
-	//Act
-	Throwable actualResult = catchThrowable(
-			() -> manager.doInTransaction(functionMock));
+    //-State
+    doThrow(SystemException.class).when(userTransaction).begin();
 
-	//Assert
-	InOrder inOrder = inOrder(userTransaction, em);
+    //Act
+    Throwable actualResult = catchThrowable(
+            () -> manager.doInTransaction(actionMock));
 
-	inOrder.verify(userTransaction).rollback();
-	inOrder.verify(em).close();
+    //Assert
+    InOrder inOrder = inOrder(userTransaction, em);
 
-	assertThat(actualResult)
-			.isInstanceOf(ManagerException.class)
-			.hasCauseInstanceOf(SystemException.class)
-			.hasMessageStartingWith(DO_IN_TRANSACTION_ERROR_MSG)
-			.hasMessageEndingWith(actualResult.getLocalizedMessage());
+    inOrder.verify(userTransaction).rollback();
+    inOrder.verify(em).close();
+
+    assertThat(actualResult)
+            .isInstanceOf(ManagerException.class)
+            .hasCauseInstanceOf(SystemException.class)
+            .hasMessageStartingWith(DO_IN_TRANSACTION_ERROR_MSG)
+            .hasMessageEndingWith(actualResult.getLocalizedMessage());
 }
 
 @Test
+@SuppressWarnings("unchecked")
 public void doInTransaction_Consumer_ExceptionThrown() throws ManagerException,
-															  NotSupportedException,
-															  SystemException,
-															  RollbackException,
-															  HeuristicMixedException,
-															  HeuristicRollbackException {
-	//Arrange
-	doThrow(SystemException.class).when(userTransaction).begin();
+                                                              NotSupportedException,
+                                                              SystemException,
+                                                              RollbackException,
+                                                              HeuristicMixedException,
+                                                              HeuristicRollbackException {
+    //Arrange
+    //-Parameters
+    Consumer<EntityManager> actionMock = mock(Consumer.class);
 
-	//Act
-	Throwable actualResult = catchThrowable(
-			() -> manager.doInTransaction(consumerMock));
+    //-State
+    doThrow(SystemException.class).when(userTransaction).begin();
 
-	//Assert
-	InOrder inOrder = inOrder(userTransaction, em);
+    //Act
+    Throwable actualResult = catchThrowable(
+            () -> manager.doInTransaction(actionMock));
 
-	inOrder.verify(userTransaction).rollback();
-	inOrder.verify(em).close();
+    //Assert
+    InOrder inOrder = inOrder(userTransaction, em);
 
-	assertThat(actualResult)
-			.isInstanceOf(ManagerException.class)
-			.hasCauseInstanceOf(SystemException.class)
-			.hasMessageStartingWith(DO_IN_TRANSACTION_ERROR_MSG)
-			.hasMessageEndingWith(actualResult.getLocalizedMessage());
+    inOrder.verify(userTransaction).rollback();
+    inOrder.verify(em).close();
+
+    assertThat(actualResult)
+            .isInstanceOf(ManagerException.class)
+            .hasCauseInstanceOf(SystemException.class)
+            .hasMessageStartingWith(DO_IN_TRANSACTION_ERROR_MSG)
+            .hasMessageEndingWith(actualResult.getLocalizedMessage());
 }
 }

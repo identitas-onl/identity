@@ -84,9 +84,9 @@
 
 	<modules>
 		<module>poms</module>
-		<module>provision</module>
+		<!--<module>provision</module>
 		<module>log4j2-api-config</module>
-		<module>log4j2-core-config</module>
+		<module>log4j2-core-config</module>-->
 		<module>identity-ejb</module>
 		<module>identity-web</module>
 	</modules>

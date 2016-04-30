@@ -40,6 +40,7 @@ package onl.identitas.identity.ejb.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -51,6 +52,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import onl.identitas.identity.ejb.converters.DateConverter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -66,12 +68,13 @@ import static java.util.Collections.unmodifiableList;
 @Entity
 @Table(name = "projects")
 @NamedQueries({
-    @NamedQuery(name = "project.getAll", query = "select p from Project as p"),
+    @NamedQuery(name = "project.getAll",
+                query = "select p from Project as p"),
     @NamedQuery(name = "project.getAllOpen",
                 query = "select p from Project as p where p.endDate is null"),
     @NamedQuery(name = "project.countByName",
-                query
-                        = "select count(p) from Project as p where p.name = :name and not(p = :currentProject)"),
+                query = "select count(p) from Project as p "
+                                + "where p.name = :name and p != :currentProject"),
     @NamedQuery(name = "project.new.countByName",
                 query = "select count(p) from Project as p where p.name = :name")})
 public class Project extends AbstractEntity implements Serializable {
@@ -112,20 +115,20 @@ public void setName(String name) {
     this.name = name;
 }
 
-public LocalDate getStartDate() {
-    return startDate;
+public Date getStartDate() {
+    return DateConverter.localDate2UtilDate(startDate);
 }
 
-public void setStartDate(LocalDate startDate) {
-    this.startDate = startDate;
+public void setStartDate(Date startDate) {
+    this.startDate = DateConverter.utilDate2LocalDate(startDate);
 }
 
-public LocalDate getEndDate() {
-    return endDate;
+public Date getEndDate() {
+    return DateConverter.localDate2UtilDate(endDate);
 }
 
-public void setEndDate(LocalDate endDate) {
-    this.endDate = endDate;
+public void setEndDate(Date endDate) {
+    this.endDate = DateConverter.utilDate2LocalDate(endDate);
 }
 
 public List<Sprint> getSprints() {

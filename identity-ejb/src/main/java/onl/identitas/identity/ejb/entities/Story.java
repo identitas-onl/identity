@@ -188,8 +188,8 @@ private List<Task> getTasks(TaskStatus status) {
                 .filter((task) -> (task != null && status.equals(task
                                    .getStatus())))
                 .forEach((task) -> {
-            result.add(task);
-        });
+                    result.add(task);
+                });
     }
     return result;
 }

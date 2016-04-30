@@ -25,40 +25,40 @@ private SkinValuesManager skinValuesManager;
 private String skin;
 
 public void update() {
-	LOG.entry();
-	if (skin == null || skin.isEmpty()) {
-		LOG.exit("skin is null or empty");
-		return;
-	}
-	String skinCss = skinValuesManager.getSkinCss(skin.toLowerCase());
-	skinManager.setSelectedSkin(skinCss);
-	LOG.exit();
+    LOG.entry();
+    if (skin == null || skin.isEmpty()) {
+        LOG.exit("skin is null or empty");
+        return;
+    }
+    String skinCss = skinValuesManager.getSkinCss(skin.toLowerCase());
+    skinManager.setSelectedSkin(skinCss);
+    LOG.exit();
 }
 
 public SkinManager getSkinManager() {
-	return LOG.exit(skinManager);
+    return LOG.exit(skinManager);
 }
 
 public void setSkinManager(SkinManager skinManager) {
-	LOG.entry(skinManager);
-	this.skinManager = skinManager;
+    LOG.entry(skinManager);
+    this.skinManager = skinManager;
 }
 
 public SkinValuesManager getSkinValuesManager() {
-	return LOG.exit(skinValuesManager);
+    return LOG.exit(skinValuesManager);
 }
 
 public void setSkinValuesManager(SkinValuesManager skinValuesManager) {
-	LOG.entry(skinValuesManager);
-	this.skinValuesManager = skinValuesManager;
+    LOG.entry(skinValuesManager);
+    this.skinValuesManager = skinValuesManager;
 }
 
 public String getSkin() {
-	return LOG.exit(skin);
+    return LOG.exit(skin);
 }
 
 public void setSkin(String skin) {
-	LOG.entry(skin);
-	this.skin = skin;
+    LOG.entry(skin);
+    this.skin = skin;
 }
 }

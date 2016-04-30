@@ -32,25 +32,24 @@ public class TaskScopeResolverTest {
 public TaskScopeResolverTest() {
 }
 
-    // TODO add test methods here.
+// TODO add test methods here.
 // The methods must be annotated with annotation @Test. For example:
 //
 // @Test
 // public void hello() {}
+@BeforeClass
+public static void setUpClass() throws Exception {
+}
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
+@AfterClass
+public static void tearDownClass() throws Exception {
+}
 
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
+@BeforeMethod
+public void setUpMethod() throws Exception {
+}
 
-	@BeforeMethod
-	public void setUpMethod() throws Exception {
-	}
-
-	@AfterMethod
-	public void tearDownMethod() throws Exception {
-	}
+@AfterMethod
+public void tearDownMethod() throws Exception {
+}
 }

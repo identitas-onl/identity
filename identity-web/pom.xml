@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project  xmlns="http://maven.apache.org/POM/4.0.0"
-		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<relativePath>../poms/compiled/</relativePath>
-		<groupId>onl.identitas.identity.build</groupId>
-		<artifactId>compiled-bundle-settings</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <relativePath>../poms/compiled/</relativePath>
+        <groupId>onl.identitas.identity.build</groupId>
+        <artifactId>compiled-bundle-settings</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-	<properties>
-		<bundle.symbolicName>onl.identitas.identity-web</bundle.symbolicName>
-		<bundle.namespace>onl.identitas.identity.web</bundle.namespace>
-	</properties>
+    <properties>
+        <bundle.symbolicName>Identity-Web</bundle.symbolicName>
+        <bundle.namespace>onl.identitas.identity.web</bundle.namespace>
+    </properties>
 
-	<groupId>onl.identitas</groupId>
-	<artifactId>identity-web</artifactId>
-	<version>1.0-SNAPSHOT</version>
+    <groupId>onl.identitas</groupId>
+    <artifactId>identity-web</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
-	<name>${bundle.symbolicName} [${bundle.namespace}]</name>
+    <name>${bundle.symbolicName} [${bundle.namespace}]</name>
 
-	<packaging>war</packaging>
+    <packaging>war</packaging>
 
-	<dependencies>
-		<!--
-		 | uncomment to add all imported (non-local) bundles to your compilation classpath
-		<dependency>
-		  <type>pom</type>
-		  <groupId>${parent.groupId}</groupId>
-		  <artifactId>provision</artifactId>
-		  <optional>true</optional>
-		</dependency>
-		-->
-		<dependency>
-			<groupId>onl.identitas</groupId>
-			<artifactId>identity-ejb</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <!--
+         | uncomment to add all imported (non-local) bundles to your compilation classpath
+        <dependency>
+          <type>pom</type>
+          <groupId>${parent.groupId}</groupId>
+          <artifactId>provision</artifactId>
+          <optional>true</optional>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>onl.identitas</groupId>
+            <artifactId>identity-ejb</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-			</plugin>
-			<!--<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.18.1</version>
-				<configuration>
-					<additionalClasspathElements>
-						<additionalClasspathElement>src\main\webapp\</additionalClasspathElement>
-						<additionalClasspathElement>src\main\java\</additionalClasspathElement>
-					</additionalClasspathElements>
-				</configuration>
-			</plugin>-->
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+            </plugin>
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>src\main\webapp\</additionalClasspathElement>
+                        <additionalClasspathElement>src\main\java\</additionalClasspathElement>
+                    </additionalClasspathElements>
+                </configuration>
+            </plugin>-->
+        </plugins>
+    </build>
 </project>

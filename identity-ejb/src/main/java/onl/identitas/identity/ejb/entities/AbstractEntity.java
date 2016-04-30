@@ -58,16 +58,16 @@ private Long id;
 
 @Override
 public Long getId() {
-	return this.id;
+    return this.id;
 }
 
 public void setId(Long id) {
-	this.id = id;
+    this.id = id;
 }
 
 @Override
 public boolean isNew() {
-	return (this.id == null);
+    return (this.id == null);
 }
 
 @Override

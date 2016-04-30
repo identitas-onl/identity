@@ -28,7 +28,7 @@ import onl.identitas.identity.ejb.entities.Task;
 @Stateless
 public class TaskFacade extends AbstractFacade<Task> implements TaskFacadeLocal {
 
-@PersistenceContext(unitName = "onl.identitas_identity-ejb_ejb_1.0-SNAPSHOTPU")
+@PersistenceContext(unitName = "identity_pu")
 private EntityManager em;
 
 public TaskFacade() {

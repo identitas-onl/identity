@@ -27,18 +27,18 @@ import onl.identitas.identity.ejb.entities.Task;
 @Local
 public interface TaskFacadeLocal {
 
-    void create(Task task);
+void create(Task task);
 
-    void edit(Task task);
+void edit(Task task);
 
-    void remove(Task task);
+void remove(Task task);
 
-    Task find(Object id);
+Task find(Object id);
 
-    List<Task> findAll();
+List<Task> findAll();
 
-    List<Task> findRange(int from, int to);
+List<Task> findRange(int from, int to);
 
-    int count();
-    
+int count();
+
 }

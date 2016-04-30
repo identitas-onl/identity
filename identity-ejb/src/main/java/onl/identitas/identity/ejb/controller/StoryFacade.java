@@ -28,7 +28,7 @@ import onl.identitas.identity.ejb.entities.Story;
 @Stateless
 public class StoryFacade extends AbstractFacade<Story> {
 
-@PersistenceContext(unitName = "onl.identitas_identity-ejb_ejb_1.0-SNAPSHOTPU")
+@PersistenceContext(unitName = "identity_pu")
 private EntityManager em;
 
 public StoryFacade() {

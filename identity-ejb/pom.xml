@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <relativePath>../poms/compiled/</relativePath>
+        <relativePath>../poms/compiled/pom.xml</relativePath>
         <groupId>onl.identitas.identity.build</groupId>
         <artifactId>compiled-bundle-settings</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <properties>
-        <bundle.symbolicName>onl.identitas.identity-ejb</bundle.symbolicName>
+        <bundle.symbolicName>Identity-EJB</bundle.symbolicName>
         <bundle.namespace>onl.identitas.identity.ejb</bundle.namespace>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
     </properties>

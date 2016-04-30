@@ -20,7 +20,6 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.FormattedMessageFactory;
 
 /**
  *
@@ -38,8 +37,6 @@ public static final String DO_IN_TRANSACTION_ERROR_MSG
                                    = "Exception during transaction: ";
 
 private static final Logger LOG = LogManager.getLogger();
-private static final FormattedMessageFactory MSG_FACTORY
-                                                     = new FormattedMessageFactory();
 
 @PersistenceUnit
 private EntityManagerFactory emf;
@@ -59,11 +56,12 @@ private UserTransaction userTransaction;
  */
 protected <T> T doInTransaction(Function<EntityManager, T> action) throws
         ManagerException {
+
     LOG.entry(action);
 
     EntityManager em = emf.createEntityManager();
     try {
-        LOG.debug(MSG_FACTORY.newMessage("Executing action: {}", action));
+        LOG.debug("Executing action: {}", action);
 
         userTransaction.begin();
 
@@ -77,6 +75,7 @@ protected <T> T doInTransaction(Function<EntityManager, T> action) throws
     }
     catch (NotSupportedException | SystemException | RollbackException |
            HeuristicMixedException | HeuristicRollbackException e) {
+
         LOG.catching(e);
 
         try {
@@ -86,8 +85,8 @@ protected <T> T doInTransaction(Function<EntityManager, T> action) throws
             LOG.catching(ex);
         }
 
-        throw LOG.throwing(new ManagerException(DO_IN_TRANSACTION_ERROR_MSG + e
-                .getLocalizedMessage(), e));
+        throw LOG.throwing(new ManagerException(
+                DO_IN_TRANSACTION_ERROR_MSG + e.getLocalizedMessage(), e));
     }
     finally {
         em.close();
@@ -103,11 +102,12 @@ protected <T> T doInTransaction(Function<EntityManager, T> action) throws
  */
 protected void doInTransaction(Consumer<EntityManager> action) throws
         ManagerException {
+
     LOG.entry(action);
 
     EntityManager em = emf.createEntityManager();
     try {
-        LOG.debug(MSG_FACTORY.newMessage("Executing action: {}", action));
+        LOG.debug("Executing action: {}", action);
 
         userTransaction.begin();
 
@@ -121,6 +121,7 @@ protected void doInTransaction(Consumer<EntityManager> action) throws
     }
     catch (HeuristicMixedException | HeuristicRollbackException |
            NotSupportedException | RollbackException | SystemException e) {
+
         LOG.catching(e);
 
         try {
@@ -130,8 +131,8 @@ protected void doInTransaction(Consumer<EntityManager> action) throws
             LOG.catching(ex);
         }
 
-        throw LOG.throwing(new ManagerException(DO_IN_TRANSACTION_ERROR_MSG + e
-                .getLocalizedMessage(), e));
+        throw LOG.throwing(new ManagerException(
+                DO_IN_TRANSACTION_ERROR_MSG + e.getLocalizedMessage(), e));
     }
     finally {
         em.close();
@@ -169,10 +170,8 @@ protected void addMessage(String message, Severity severity) {
  */
 protected void addMessage(String componentId, String message, Severity severity) {
     LOG.entry(componentId, message, severity);
-    FacesContext.getCurrentInstance().addMessage(componentId,
-                                                 new FacesMessage(severity,
-                                                                  message,
-                                                                  message));
+    FacesContext.getCurrentInstance().addMessage(
+            componentId, new FacesMessage(severity, message, message));
     LOG.exit();
 }
 
@@ -190,6 +189,7 @@ protected FacesMessage getFacesMessageForKey(String key) {
 
 protected void publishEvent(Class<? extends SystemEvent> eventClass,
                             Object source) {
+
     LOG.entry(eventClass, source);
     if (source != null) {
         FacesContext ctx = FacesContext.getCurrentInstance();
@@ -200,6 +200,7 @@ protected void publishEvent(Class<? extends SystemEvent> eventClass,
 
 protected void subscribeToEvent(Class<? extends SystemEvent> eventClass,
                                 SystemEventListener listener) {
+
     LOG.entry(eventClass, listener);
     FacesContext.getCurrentInstance().getApplication().subscribeToEvent(
             eventClass, listener);
@@ -208,6 +209,7 @@ protected void subscribeToEvent(Class<? extends SystemEvent> eventClass,
 
 protected void unsubscribeFromEvent(Class<? extends SystemEvent> eventClass,
                                     SystemEventListener listener) {
+
     LOG.entry(eventClass, listener);
     FacesContext.getCurrentInstance().getApplication().unsubscribeFromEvent(
             eventClass, listener);
